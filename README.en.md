@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # react-demo
+=======
+# exam-pc
+>>>>>>> 8c9656a77e64fb499ab9ea5638ba1aace94fc750
 
 #### Description
 {**When you're done, you can delete the content in this README and update the file with details for others getting started with your repository**}
