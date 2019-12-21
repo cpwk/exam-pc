@@ -1,0 +1,54 @@
+body {
+  .layout {
+    height: 100vh;
+
+    .layout-sider {
+      overflow: auto;
+      height: 100vh;
+      left: 0;
+
+      .layout-logo {
+        height: 62px;
+        background: url("./../../img/bubu.jpg") center no-repeat;
+        background-size: contain;
+      }
+
+    }
+
+    .layout-header {
+      //position: fixed;
+      z-index: 1;
+      width: 100%;
+      background: #414141;
+      padding: 0;
+      height: 66px;
+      position: relative;
+
+      .layout-right {
+        position: absolute;
+        right: 0;
+
+        .layout-right-menu {
+          height: 67px;
+          padding: 9px 0 0 0;
+          background: #414141;
+
+          .ant-menu-item .anticon, .ant-menu-submenu-title .anticon {
+            margin-right: 0;
+          }
+        }
+      }
+
+    }
+
+    .layout-content {
+      margin: 30px 30px 0 30px;
+      overflow: initial;
+
+      .layout-inside {
+        padding: 20px;
+        background: #fff;
+      }
+    }
+  }
+}

@@ -1,0 +1,105 @@
+@import "color";
+
+body {
+  font-family: "微软雅黑", "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+  font-size: 13px;
+  width: 100%;
+  min-width: 1200px;
+  margin: 0 auto;
+  background: #fff;
+  font-weight: 200;
+  color: $font-default !important;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* common */
+ul, p {
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  border: 0 none;
+}
+
+
+ol, ul, li {
+  list-style: none;
+}
+
+a, button, input, li, label {
+  -webkit-tap-highlight-color: rgba(255, 0, 0, 0);
+}
+
+a {
+  text-decoration: none;
+}
+
+img, input {
+  border: none;
+}
+
+textarea {
+  resize: none
+}
+
+a:focus, input:focus, img:focus, button:focus, textarea:focus, select:focus, li:focus, label:focus {
+  outline: none;
+}
+
+.clearfix {
+  clear: both;
+}
+
+.clearfix-h20 {
+  clear: both;
+  height: 20px;
+}
+
+.prism-player {
+  background-color: transparent !important;
+}
+
+//常规面包屑
+.ant-breadcrumb {
+  margin: 12px 0;
+}
+
+//card顶部面包屑
+.ant-card {
+  .ant-card-head-title {
+    .ant-breadcrumb {
+      margin: 0;
+      padding-left: 10px;
+      position: relative;
+      &:before {
+        position: absolute;
+        content: '';
+        width: 3px;
+        height: 22px;
+        left: 0;
+        background: $md-red;
+      }
+    }
+  }
+  .ant-card-body {
+    .block-title {
+      font-size: 14px;
+      height: 14px;
+      line-height: 14px;
+      padding-left: 10px;
+      margin: 16px 0;
+      font-weight: 500;
+      border-left: 3px solid $md-red;
+    }
+    //label左侧对齐，暂不启用
+    //.ant-form-item-label {
+    //  text-align: left;
+    //}
+  }
+}

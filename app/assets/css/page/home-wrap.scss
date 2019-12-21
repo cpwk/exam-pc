@@ -1,0 +1,275 @@
+@import "../color";
+
+.home-wrap {
+  background: #fff;
+  padding-top: 70px;
+
+  .top-header {
+    width: 100%;
+    height: 70px;
+    text-align: center;
+    z-index: 5;
+    position: fixed;
+    top: 0;
+    //background: url("../../image/common/top_bg.png") center repeat-x;
+    background: #000000;
+    background-size: contain;
+
+    .inner {
+      margin: 0 auto;
+      width: 1200px;
+
+      .logo {
+        float: left;
+        width: 117px;
+        height: 54px;
+        margin-top: 8px;
+        background: url("../../image/common/logo.png") center no-repeat;
+        background-size: contain;
+      }
+
+      ul {
+        width: 660px;
+        float: right;
+        height: 70px;
+        padding: 15px 0;
+
+        li {
+          float: left;
+          height: 40px;
+          width: 90px;
+          padding: 0 10px;
+
+          a {
+            display: block;
+            text-align: center;
+            width: 70px;
+            line-height: 40px;
+            font-size: 14px;
+            font-weight: 200;
+            color: #ffffff;
+            text-decoration: none;
+          }
+
+          .cur {
+            border-bottom: 2px solid #ffffff;
+          }
+
+        }
+      }
+
+      .btn {
+        float: right;
+        width: 90px;
+        height: 32px;
+        line-height: 32px;
+        margin: 19px 0;
+        background: $md-red;
+        border-radius: 18px;
+        font-size: 14px;
+        color: #fff;
+        text-align: center;
+        font-weight: 500;
+        cursor: pointer;
+      }
+
+    }
+  }
+
+  .main-carousel {
+    width: 100%;
+    height: 730px;
+    position: relative;
+
+    .item {
+      width: 100%;
+      height: 730px;
+      margin: 0 auto;
+      cursor: pointer;
+    }
+
+    .slick-dots {
+      z-index: 2;
+      bottom: 24px;
+
+      li {
+        button {
+          height: 5px !important;
+          width: 30px !important;
+          border-radius: 10px !important;
+          background: $font-gray !important;
+        }
+      }
+
+      .slick-active {
+        button {
+          width: 60px !important;
+          background: #fff !important;
+        }
+      }
+    }
+
+
+    .mcbtn {
+      position: absolute;
+      bottom: 80px;
+      left: 50%;
+      text-align: center;
+      font-size: 14px;
+      color: #fff;
+      cursor: pointer;
+      -webkit-transition: all .4s;
+      transition: all .4s;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+
+    .mcbtn-1 {
+      width: 420px;
+      margin-left: -210px;
+      height: 70px;
+      line-height: 70px;
+      color: #000;
+      background-image: linear-gradient(191deg, #7DFCCA 0%, #2BFBF8 100%);
+      border-radius: 16px;
+      font-size: 30px;
+    }
+
+    .mcbtn-7 {
+      margin-left: -170px;
+      width: 340px;
+      height: 60px;
+      line-height: 60px;
+      background: #A60203;
+      border-radius: 4px;
+      font-size: 24px;
+    }
+
+    .mcbtn-9 {
+      margin-left: -170px;
+      width: 340px;
+      height: 60px;
+      line-height: 60px;
+      background: #4FCCEB;
+      border-radius: 4px;
+      font-size: 24px;
+    }
+
+  }
+
+  .inner-page {
+
+    .ant-pagination {
+      float: right;
+    }
+
+  }
+
+  .page-block {
+    width: 100%;
+
+    .inner {
+      margin: 0 auto;
+      width: 1200px;
+      padding-top: 40px;
+
+      .f-title {
+        width: 100%;
+        font-size: 40px;
+        color: #000;
+        text-align: center;
+        font-weight: 500;
+        line-height: 80px;
+      }
+
+      .s-title {
+        width: 100%;
+        padding: 0 70px;
+        font-size: 14px;
+        color: #333;
+        text-align: center;
+      }
+    }
+  }
+
+  .footer {
+    width: 100%;
+    height: 360px;
+    background: #000000;
+    font-size: 16px;
+
+    .inner {
+      margin: 0 auto;
+      width: 1200px;
+      padding-top: 30px;
+
+      .qrcode {
+        float: right;
+        width: 137px;
+        height: 170px;
+        margin: 60px 20px 0 0;
+
+        .img {
+          width: 137px;
+          height: 137px;
+          background: url("../../image/common/qrcode.png") center left no-repeat;
+          background-size: contain;
+        }
+
+        p {
+          color: #fff;
+          font-size: 14px;
+          text-align: center;
+          line-height: 30px;
+        }
+      }
+
+      .links {
+        float: left;
+        width: 900px;
+        height: 250px;
+        padding-top: 50px;
+
+        .uls {
+          float: left;
+
+          ul {
+            float: left;
+            width: 200px;
+
+            li {
+              height: 40px;
+              line-height: 40px;
+              color: #ffffff;
+              font-size: 13px;
+
+              b {
+                color: #ffffff;
+                font-size: 14px;
+              }
+
+              a {
+                color: #ffffff;
+              }
+            }
+          }
+        }
+      }
+
+
+      .copyright {
+        clear: both;
+        width: 100%;
+        height: 80px;
+        line-height: 80px;
+        border-top: 1px solid #fff;
+        text-align: center;
+        color: #fff;
+        font-size: 14px;
+      }
+    }
+
+  }
+}

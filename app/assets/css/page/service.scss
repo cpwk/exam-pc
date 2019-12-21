@@ -1,0 +1,274 @@
+@import "../color";
+@import "../mixin";
+
+.service-page {
+  width: 100%;
+
+  .main-carousel {
+    height: 560px;
+
+    .ant-carousel {
+      height: 560px;
+
+      .item {
+        height: 560px;
+      }
+    }
+  }
+
+  .teach-model {
+    height: 600px;
+
+    .inner {
+      width: 1080px;
+
+      ul {
+        width: 100%;
+        margin-top: 80px;
+
+        li {
+          float: left;
+          width: 324px;
+          height: 370px;
+          margin-right: 54px;
+          position: relative;
+
+          .icon {
+            position: absolute;
+            top: 0;
+            left: 102px;
+            width: 120px;
+            height: 120px;
+            border-radius: 100%;
+            font-size: 45px;
+            color: #fff;
+            text-align: center;
+            line-height: 120px;
+            font-weight: 500;
+          }
+
+          .box {
+            position: absolute;
+            left: 0;
+            top: 66px;
+            width: 324px;
+            height: 297px;
+            background: url("../../image/service/bg_teach_model.png") center no-repeat;
+            background-size: contain;
+            padding: 70px 35px 0 35px;
+
+            .title {
+              width: 100%;
+              text-align: center;
+              font-weight: 500;
+              font-size: 26px;
+              letter-spacing: 3.9px;
+              line-height: 70px;
+            }
+
+            .descr {
+              width: 100%;
+              text-align: center;
+              font-size: 16px;
+              color: #333333;
+              letter-spacing: 2.4px;
+            }
+          }
+
+          &:nth-child(1) {
+            .icon {
+              background-image: linear-gradient(180deg, #FF8D3E 0%, #FF541D 100%);
+              box-shadow: 0 2px 12px 0 rgba(255, 84, 29, 0.64);
+            }
+
+            .title {
+              color: #FF541D;
+            }
+          }
+
+          &:nth-child(2) {
+            .icon {
+              background-image: linear-gradient(180deg, #61DDDC 0%, #328EB8 100%);
+              box-shadow: 0 2px 12px 0 rgba(60, 192, 191, 0.59);
+            }
+
+            .title {
+              color: #32B8B7;
+            }
+          }
+
+          &:nth-child(3) {
+            margin-right: 0;
+
+            .icon {
+              background-image: linear-gradient(180deg, #55CEFF 0%, #2F9BE9 100%);
+              box-shadow: 0 2px 12px 0 rgba(24, 144, 255, 0.78);
+            }
+
+            .title {
+              color: #2F9BE9;
+            }
+          }
+
+
+        }
+      }
+    }
+
+  }
+
+  .teach-feature {
+    height: 620px;
+
+    .inner {
+      width: 1110px;
+
+      ul {
+        width: 100%;
+        margin-top: 80px;
+
+        li {
+          float: left;
+          width: 324px;
+          height: 370px;
+          margin-right: 69px;
+          position: relative;
+          padding: 50px 40px;
+          background: #fff;
+          border: 1px solid rgba(223, 223, 223, 0.2);
+          box-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.05);
+          border-radius: 12px;
+
+          .icon {
+            position: relative;
+            left: 50%;
+            margin-left: -55px;
+            width: 110px;
+            height: 100px;
+          }
+
+          .title {
+            width: 100%;
+            text-align: center;
+            font-weight: 500;
+            font-size: 26px;
+            line-height: 70px;
+          }
+
+          .descr {
+            width: 100%;
+            text-align: center;
+            font-size: 16px;
+            color: #333333;
+            letter-spacing: 2.4px;
+          }
+
+          &:nth-child(1) {
+            .icon {
+              background: url("../../image/service/icon_feature_1.png") center no-repeat;
+              background-size: contain;
+            }
+          }
+
+          &:nth-child(2) {
+            .icon {
+              background: url("../../image/service/icon_feature_2.png") center no-repeat;
+              background-size: contain;
+            }
+          }
+
+          &:nth-child(3) {
+            margin-right: 0;
+
+            .icon {
+              background: url("../../image/service/icon_feature_3.png") center no-repeat;
+              background-size: contain;
+            }
+          }
+        }
+      }
+    }
+
+  }
+
+  .employment-security {
+    height: 640px;
+
+    .inner {
+      ul {
+        width: 100%;
+        margin-top: 80px;
+
+        li {
+          float: left;
+          width: 289px;
+          height: 386px;
+          margin-right: 14px;
+          position: relative;
+          padding: 50px 15px;
+          background: #fff;
+          border: 1px solid rgba(223, 223, 223, 0.2);
+          box-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.05);
+          border-radius: 12px;
+
+          .icon {
+            position: relative;
+            left: 50%;
+            margin-left: -68px;
+            width: 137px;
+            height: 144px;
+          }
+
+          .title {
+            width: 100%;
+            text-align: center;
+            font-weight: 500;
+            font-size: 24px;
+            line-height: 40px;
+          }
+
+          .descr {
+            width: 100%;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 16px;
+            color: #333333;
+            letter-spacing: 2.4px;
+          }
+
+          &:nth-child(1) {
+            .icon {
+              background: url("../../image/service/icon_employment_1.png") center no-repeat;
+              background-size: contain;
+            }
+          }
+
+          &:nth-child(2) {
+            .icon {
+              background: url("../../image/service/icon_employment_2.png") center no-repeat;
+              background-size: contain;
+            }
+          }
+
+          &:nth-child(3) {
+            .icon {
+              background: url("../../image/service/icon_employment_3.png") center no-repeat;
+              background-size: contain;
+            }
+          }
+
+          &:nth-child(4) {
+            margin-right: 0;
+
+            .icon {
+              background: url("../../image/service/icon_employment_4.png") center no-repeat;
+              background-size: contain;
+            }
+          }
+        }
+      }
+    }
+  }
+
+}
+

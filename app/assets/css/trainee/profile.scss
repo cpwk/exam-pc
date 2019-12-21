@@ -1,0 +1,47 @@
+.profile-page {
+  .profile {
+    display: flex;
+    flex-flow: row;
+
+    .side-right {
+      margin: 0 80px 0 80px;
+      float: right;
+
+      .side-bac {
+        border: 2px solid #f3f3f3;
+        border-radius: 50%;
+
+        .side-shadow {
+          border: 1px solid #f9f9f9;
+          border-radius: 50%;
+        }
+      }
+
+      .side-top {
+        margin-top: 10px;
+        text-align: center;
+      }
+
+    }
+
+    .avatar {
+      flex: 0 0 150px;
+      width: 150px;
+      height: 150px;
+    }
+
+    .info {
+      flex: 1;
+      margin-left: 20px;
+
+      li {
+        float: left;
+        width: 50%;
+        line-height: 40px;
+        font-size: 14px;
+        font-weight: 500;
+      }
+    }
+
+  }
+}
