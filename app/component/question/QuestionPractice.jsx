@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {App, CTYPE} from "../../common";
+import {App, CTYPE,U} from "../../common";
 import {Card, Input, Checkbox, Radio, Button, message, Icon, Modal, Col} from "antd";
 import "../../assets/css/question/questionPractice.less"
 
@@ -19,6 +19,7 @@ class QuestionPractice extends Component {
     }
 
     componentDidMount() {
+        U.setWXTitle("练习");
         this.loadData();
     }
 
@@ -83,12 +84,13 @@ class QuestionPractice extends Component {
                                         <li>
                                             {question.options.map((obj, i) => {
                                                 return <Col span={12}> <Radio.Group value={questions[index].userAnswer}
-                                                                    disabled={disabled} onChange={(e) => {
-                                                    questions[index].userAnswer = e.target.value;
-                                                    this.setState({
-                                                        questions
-                                                    })
-                                                }}>
+                                                                                    disabled={disabled}
+                                                                                    onChange={(e) => {
+                                                                                        questions[index].userAnswer = e.target.value;
+                                                                                        this.setState({
+                                                                                            questions
+                                                                                        })
+                                                                                    }}>
                                                     <Col span={12}> <Radio
                                                         value={CTYPE.ABC[i]}>{CTYPE.ABC[i]}.{obj}</Radio></Col>
                                                 </Radio.Group></Col>

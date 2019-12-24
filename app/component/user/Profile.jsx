@@ -2,7 +2,7 @@ import React from 'react';
 import UserProfile from "./UserProfile";
 import {App, U, CTYPE} from "../../common";
 import '../../assets/css/trainee/profile.scss'
-import {Modal, Icon, Form, Radio, Input, Select, Card, Button, message,Avatar} from "antd";
+import {Modal, Icon, Form, Radio, Input, Select, Card, Button, message, Avatar} from "antd";
 import KvStorage from "../../common/KvStorage";
 import {PosterEdit} from "../../common/update/CommonEdit";
 

@@ -12,8 +12,15 @@ export default class Success extends React.Component {
     }
 
     render() {
-        return <div style={{width:"100%",height:'100%'}}>
-            <div style={{margin: '0 auto',width:'400px',height:'400px',position:'relative',top:'50%',transform: "translateY(50%)"}}>
+        return <div style={{width: "100%", height: '100%'}}>
+            <div style={{
+                margin: '0 auto',
+                width: '400px',
+                height: '400px',
+                position: 'relative',
+                top: '50%',
+                transform: "translateY(50%)"
+            }}>
                 <Result
                     status="success"
                     title="你的密码已重置成功"

@@ -44,13 +44,13 @@ export default class Login extends React.Component {
         let {key, user, accountType} = this.state;
         let {username} = user;
         if (U.str.isChinaMobile(username)) {
-            this.setState({accountType:1});
+            this.setState({accountType: 1});
             // accountType = 1;
-        } else if (U.str.isEmail(username)){
-            this.setState({accountType:2});
+        } else if (U.str.isEmail(username)) {
+            this.setState({accountType: 2});
             // accountType = 2;
-        }else {
-            this.setState({accountType:3})
+        } else {
+            this.setState({accountType: 3})
         }
         key = Date.now();
         App.api("/send/file", {
@@ -107,18 +107,18 @@ export default class Login extends React.Component {
                             </div>
                             :
                             <div>{type === 1 && <Input.Password
-                                    value={password} placeholder="请输入密码"
-                                    maxLength="18"
-                                    prefix={<Icon type="lock"/>}
-                                    onChange={(e) => {
-                                        this.setState({
-                                            user: {
-                                                ...user,
-                                                password: e.target.value
-                                            }
-                                        })
-                                    }}
-                                />
+                                value={password} placeholder="请输入密码"
+                                maxLength="18"
+                                prefix={<Icon type="lock"/>}
+                                onChange={(e) => {
+                                    this.setState({
+                                        user: {
+                                            ...user,
+                                            password: e.target.value
+                                        }
+                                    })
+                                }}
+                            />
                             }
                             </div>
                     }

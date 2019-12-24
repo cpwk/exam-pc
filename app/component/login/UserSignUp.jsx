@@ -1,5 +1,5 @@
 import React from 'react';
-import {Input, Form, Select, Carousel, Icon, message,InputNumber} from 'antd';
+import {Input, Form, Select, Carousel, Icon, message, InputNumber} from 'antd';
 import App from "../../common/App"
 import "../../assets/css/common/user_sign_up.less"
 import {CTYPE, U} from "../../common";
@@ -11,10 +11,8 @@ export default class UserSignUp extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            errorName: 1,
             errorUserName: 1,
             errorPassword: 1,
-            errorEmail: 1,
             see: 1,
             user: {},
             key: 0,
@@ -55,8 +53,8 @@ export default class UserSignUp extends React.Component {
 
     render() {
 
-        let {vCode, user = {}, see, errorName, errorPassword, tipsName, errorUserName, errorEmail} = this.state;
-        let {name, password, username, email, mobile} = user;
+        let {vCode, user = {}, see, errorPassword, tipsName, errorUserName} = this.state;
+        let {name, password, username, mobile} = user;
         let {code} = vCode;
         return <div className="page_signup">
             <div className="signup-img">
@@ -167,18 +165,14 @@ export default class UserSignUp extends React.Component {
                                    }
                                })
                            }}/>
-                    {
-                        tipsName == 2 && <div className="tips">
-                            <Icon type="exclamation-circle" theme="twoTone" twoToneColor="#00BC19"/>
-                            长度为6~18位的字符
-                        </div>
-                    }
-                    {
-                        errorPassword === 0 && <div className="error">
-                            <Icon type="close-circle" theme="twoTone" twoToneColor="red"/>
-                            密码不可以为空
-                        </div>
-                    }
+                    {tipsName === 2 && <div className="tips">
+                        <Icon type="exclamation-circle" theme="twoTone" twoToneColor="#00BC19"/>
+                        长度为6~18位的字符
+                    </div>}
+                    {errorPassword === 0 && <div className="error">
+                        <Icon type="close-circle" theme="twoTone" twoToneColor="red"/>
+                        密码不可以为空
+                    </div>}
                 </Form.Item>
 
                 <div className="signup-sign"><a onClick={() => {

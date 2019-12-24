@@ -15,7 +15,7 @@ let CTYPE = (() => {
 
         ABC: ['A', 'B', 'C', 'D', 'E'],
 
-        judge: [{id:"1",label:'对'},{id:"2",label:'错'} ],
+        judge: [{id: "1", label: '对'}, {id: "2", label: '错'}],
 
         pagination: {pageSize: 10},
 

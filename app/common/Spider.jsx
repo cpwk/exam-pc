@@ -57,9 +57,9 @@ export default class Spider extends React.Component {
             visible={true}
             onOk={this.doFetchPage}
             onCancel={this.close}>
-                <TextArea style={{height: '100px'}} value={url} placeholder='输入微信文章地址' onChange={(e) => {
-                    this.setState({url: e.target.value});
-                }}/>
+            <TextArea style={{height: '100px'}} value={url} placeholder='输入微信文章地址' onChange={(e) => {
+                this.setState({url: e.target.value});
+            }}/>
         </Modal>
     }
 }

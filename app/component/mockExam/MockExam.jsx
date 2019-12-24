@@ -50,10 +50,10 @@ class MockExam extends Component {
         let {templateId} = this.state;
         let id = templateId;
         if (id === 0) {
-            message.warn("请选择模板")
-        } else {
-            App.go(`/app/mockExam/mockExamEdit/${id}`);
+            message.warn("请选择模板");
+            return;
         }
+        App.go(`/app/mockExam/mockExamEdit/${id}`);
     };
 
     render() {
@@ -157,12 +157,9 @@ class MockExam extends Component {
                             </Radio.Group>
                         </Form.Item>}
                         <div style={{marginTop: "50px"}}>
-                            <Button type="primary"
-                                    style={{width: "300px", marginLeft: "37%"}}
-                                    onClick={() => {
-                                        this.edit()
-                                    }}
-                                    htmlType="submit">试卷生成</Button>
+                            <Button type="primary" style={{width: "300px", marginLeft: "37%"}} onClick={() => {
+                                this.edit()
+                            }} htmlType="submit">试卷生成</Button>
                         </div>
                     </Panel>
                 </Collapse>

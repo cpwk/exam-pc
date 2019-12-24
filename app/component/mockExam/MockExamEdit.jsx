@@ -62,6 +62,7 @@ class MockExamEdit extends Component {
     };
 
     handleSubmit = () => {
+        clearInterval(this.timerId);
         let _this = this;
         let {totalScore, usrPaper = {}, template = {}, count, type} = this.state;
         let {questions = []} = template;
@@ -125,16 +126,16 @@ class MockExamEdit extends Component {
                         </Col>
 
                     </Row>
-                    {questions.map((k, index) => {
+                    {questions.map((question, index) => {
                         return <div>
-                            {index + 1 + (":") + "(" + CTYPE.displayType[`${k.type - 1}`] + ")"}
-                            {display === 2 && (k.answer === k.userAnswer ?
+                            {index + 1 + (":") + "(" + CTYPE.displayType[`${question.type - 1}`] + ")"}
+                            {display === 2 && (question.answer === question.userAnswer ?
                                 <Icon type="check" style={{color: "green"}}/> :
-                                <span style={{color: "red"}}>正确答案: {k.answer}</span>)}
-                            <li dangerouslySetInnerHTML={{__html: k.topic}}/>
-                            {k.type === 1 &&
+                                <span style={{color: "red"}}>正确答案: {question.answer}</span>)}
+                            <li dangerouslySetInnerHTML={{__html: question.topic}}/>
+                            {question.type === 1 &&
                             <span>
-                                {k.options.map((obj, i) => {
+                                {question.options.map((obj, i) => {
                                     return <Col span={12}>
                                         <Radio.Group value={questions[index].userAnswer}
                                                      disabled={disabled}
@@ -149,7 +150,7 @@ class MockExamEdit extends Component {
                                     </Col>
                                 })}
                                     </span>}
-                            {k.type === 2 &&
+                            {question.type === 2 &&
                             <Checkbox.Group value={questions[index].userAnswer}
                                             disabled={disabled} onChange={(checkedValue) => {
                                 questions[index].userAnswer = checkedValue;
@@ -157,7 +158,7 @@ class MockExamEdit extends Component {
                                     questions
                                 })
                             }}>
-                                {k.options.map((obj, index) => {
+                                {question.options.map((obj, index) => {
                                     return <Col span={12}>
                                         <Checkbox value={CTYPE.ABC[index]}
                                                   key={index}>{CTYPE.ABC[index]}.{obj}</Checkbox>
@@ -165,7 +166,7 @@ class MockExamEdit extends Component {
                                 })}
                             </Checkbox.Group>
                             }
-                            {k.type === 3 &&
+                            {question.type === 3 &&
                             <span>
                                 {CTYPE.judge.map((obj, i) => {
                                     return <Radio.Group value={questions[index].userAnswer}
@@ -179,7 +180,7 @@ class MockExamEdit extends Component {
                                     </Radio.Group>
                                 })}
                                     </span>}
-                            {k.type === 4 &&
+                            {question.type === 4 &&
                             <Input value={questions[index].userAnswer}
                                    disabled={disabled} onChange={(e) => {
                                 questions[index].userAnswer = e.target.value;
@@ -187,7 +188,7 @@ class MockExamEdit extends Component {
                                     questions
                                 })
                             }}/>}
-                            {k.type === 5 &&
+                            {question.type === 5 &&
                             <Input.TextArea rows={3} value={questions[index].userAnswer}
                                             disabled={disabled} onChange={(e) => {
                                 questions[index].userAnswer = e.target.value;

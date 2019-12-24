@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {App, U, CTYPE, Utils} from "../../common";
 import '../../assets/css/trainee/profile.scss'
-import {Tabs, Table, Rate, Dropdown, Menu, Icon, Modal,message} from "antd";
+import {Tabs, Table, Rate, Dropdown, Menu, Icon, Modal, message} from "antd";
 
 const {TabPane} = Tabs;
 

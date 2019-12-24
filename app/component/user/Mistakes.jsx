@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {App, CTYPE, Utils, U} from "../../common";
-import {Button, Card, Col, Row, Select, Input, Rate, Modal, message} from "antd";
+import {Button, Card, Col, Row, Select, Input, Rate, Modal, message, Icon, Tooltip} from "antd";
 import BreadcrumbCustom from "../BreadcrumbCustom";
 import Link from "react-router-dom/Link";
 import Pagination from "antd/es/pagination";
@@ -91,69 +91,41 @@ class Mistakes extends Component {
                     </Select>
                 }
             >
-                {list.map((k, index) => {
+                {list.map((questions, index) => {
+                    let {question = []} = questions;
                     return <div>
+                        {index + 1 + (":") + "(" + CTYPE.displayType[`${question.type - 1}`] + ")"}
+                        {question.answer === question.userAnswer ?
+                            <Icon type="check" style={{color: "green"}}/> :
+                            <Tooltip
+                                title={`参考答案: ${question.answer}`}>
+                                <Icon type='question-circle' style={{color: "red", margin: "0 10px"}}/></Tooltip>}
+                        <li dangerouslySetInnerHTML={{__html: question.topic}}/>
                         <ul>
+                            {question.type === 1 &&
                             <li>
-                                {k.question.type === 1 &&
-                                <li>
-                                    {k.question.type === 1 &&
-                                    index + 1 + (":") + "(" + CTYPE.displayType[`${k.question.type - 1}`] + ")"}
-                                    <li dangerouslySetInnerHTML={{__html: k.question.topic}}/>
-                                    <li>
-                                        {k.question.options.map((obj, i) => {
-                                            return <li>{CTYPE.ABC[i]}.{obj}</li>
-                                        })}
-                                    </li>
-                                </li>}
-                            </li>
+                                {question.options.map((obj, i) => {
+                                    return <li>{CTYPE.ABC[i]}.{obj}</li>
+                                })}
+                            </li>}
+                            {question.type === 2 &&
                             <li>
-                                {k.question.type === 2 &&
-                                <li>
-                                    {k.question.type === 2 &&
-                                    index + 1 + (":") + "(" + CTYPE.displayType[`${k.question.type - 1}`] + ")"}
-
-                                    {/*<span style={{color: "green"}}>正确答案: {k.question.answer.map((a, index) => {*/}
-                                    {/*    return <span>{a}</span>*/}
-                                    {/*})}</span>*/}
-                                    <li dangerouslySetInnerHTML={{__html: k.question.topic}}/>
-                                    <li>
-                                        {k.question.options.map((obj, i) => {
-                                            return <li>{CTYPE.ABC[i]}.{obj}</li>
-                                        })}
-                                    </li>
-                                </li>}
-                            </li>
+                                {question.options.map((obj, i) => {
+                                    return <li>{CTYPE.ABC[i]}.{obj}</li>
+                                })}
+                            </li>}
+                            {question.type === 3 &&
                             <li>
-                                {k.question.type === 3 &&
-                                <li>
-                                    {k.question.type === 3 &&
-                                    index + 1 + (":") + "(" + CTYPE.displayType[`${k.question.type - 1}`] + ")"}
-                                    <li dangerouslySetInnerHTML={{__html: k.question.topic}}/>
-                                    <li>
-                                        {CTYPE.judge.map((j, index) => {
-                                            return <li>{index + 1}.{j.label}</li>
-                                        })}
-                                    </li>
-                                </li>}
-                            </li>
-                            <li>
-                                {(k.question.type === 4 || k.question.type === 5) &&
-                                <li>
-                                    {(k.question.type === 4 || k.question.type === 5) &&
-                                    index + 1 + (":") + "(" + CTYPE.displayType[`${k.question.type - 1}`] + ")"}
-                                    <li dangerouslySetInnerHTML={{__html: k.question.topic}}/>
-                                </li>}
-                            </li>
+                                {CTYPE.judge.map((j, index) => {
+                                    return <li>{index + 1}.{j.label}</li>
+                                })}
+                            </li>}
                         </ul>
                         <div style={{margin: "20px 0"}}>
-                            <Col span={4}>
-                                <Button type="primary" style={{height: "25px"}}
-                                        htmlType="submit" onClick={() => {
-                                    this.status(k.id)
-                                }}>移除</Button>
-                            </Col>
-                            <span style={{color: "green"}}>正确答案: {k.question.answer}</span>
+                            <Button type="primary" style={{height: "25px"}}
+                                    htmlType="submit" onClick={() => {
+                                this.status(k.id)
+                            }}>移除</Button>
                         </div>
                     </div>
                 })}
