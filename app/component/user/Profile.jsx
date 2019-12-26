@@ -101,11 +101,6 @@ export default class Profile extends React.Component {
                             邮箱：{email}
                         </li>
                     </ul>
-
-                    {/*<img className='avatar' src={avatar}/>*/}
-                    {/*<Button type="primary" style={{float: "right"}} onClick={() => {*/}
-                    {/*    this.edit()*/}
-                    {/*}} htmlType="submit"><Icon type="edit"/>点击修改</Button>*/}
                 </div>
             </div>
             <Modal title={'修改头像'}

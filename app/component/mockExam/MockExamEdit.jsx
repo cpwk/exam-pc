@@ -14,14 +14,13 @@ class MockExamEdit extends Component {
         super(props);
         this.state = {
             id: parseInt(this.props.match.params.id),
-            template: {},
             usrPaper: {},
+            template: {},
             display: 1,
             disabled: false,
             isDisplay: 1,
             count: 0,
-            totalScore: 0,
-            type: 1
+            totalTime: 0
         }
     }
 
@@ -35,8 +34,20 @@ class MockExamEdit extends Component {
 
     loadData = () => {
         let {id} = this.state;
-        App.api('/usr/template/template_id', {id}).then((template) => {
+        App.api('/usr/usrPaper/start', {id}).then((result) => {
+            let {usrPaper = {}, template = {}} = result;
+            if (usrPaper.type === 1) {
+                this.setState({
+                    usrPaper,
+                    template,
+                    isDisplay: 2,
+                    disabled: true,
+                    display: 2,
+                    totalTime: U.date.seconds2MS(usrPaper.totalTime / 1000)
+                });
+            }
             this.setState({
+                    usrPaper,
                     template,
                     count: template.duration / 1000
                 }, () => {
@@ -64,32 +75,28 @@ class MockExamEdit extends Component {
     handleSubmit = () => {
         clearInterval(this.timerId);
         let _this = this;
-        let {totalScore, usrPaper = {}, template = {}, count, type} = this.state;
-        let {questions = []} = template;
-        questions.map((obj, index) => {
-            if (obj.answer === obj.userAnswer) {
-                this.setState({totalScore: totalScore += 2})
-            }
-        });
-        usrPaper.totalScore = totalScore;
-        usrPaper.questions = questions;
-        usrPaper.templateId = template.id;
-        usrPaper.totalTime = count * 1000;
+        let {type = 1, usrPaper = {}, count} = this.state;
         usrPaper.type = type;
-        App.api('/usr/usrPaper/save', {
+        usrPaper.totalTime = count * 1000;
+        App.api('/usr/usrPaper/end', {
             usrPaper: JSON.stringify(usrPaper)
-        }).then(() => {
-            let {totalScore} = this.state;
+        }).then((result) => {
+            let {usrPaper = {}, template = {}} = result;
+            this.setState({
+                usrPaper,
+                template,
+            });
             Modal.success({
                 title: "考试结束",
-                content: `本次考试共计得:${totalScore}分`,
+                content: `本次考试共计得:${usrPaper.totalScore}分`,
                 okText: "确认",
                 keyboard: true,
                 onOk() {
                     _this.setState({
                         isDisplay: 2,
                         disabled: true,
-                        display: 2
+                        display: 2,
+                        totalTime: U.date.seconds2MS(usrPaper.totalTime / 1000)
                     });
                 },
                 onCancel() {
@@ -99,19 +106,18 @@ class MockExamEdit extends Component {
     };
 
     render() {
-        let {display, disabled, isDisplay, template, count} = this.state;
-        let {questions = [], templateName, totalScore, passingScore, difficulty} = template;
+        let {display, disabled, isDisplay, usrPaper, count, template, totalTime} = this.state;
+        let {questions = [], paperName,} = usrPaper;
+        let {totalScore, passingScore, difficulty} = template;
         let _duration = U.date.seconds2MS(count);
-        let time = (template.duration / 1000) - count;
-        let _time = U.date.seconds2MS(time);
         return <div>
             <Card className="mockExam">
                 <div className="mockExam-time">
-                    {display === 1 ? <span>距离结束:{_duration}</span> : <span>用时:{_time}</span>}
+                    {display === 1 ? <span>距离结束:{_duration}</span> : <span>用时:{totalTime}</span>}
                 </div>
                 <div className="mockExam-card">
                     <div className="mockExam-name">
-                        <span>{templateName}</span>
+                        <span>{paperName}</span>
                     </div>
                     <Row className="mockExam-row">
                         <Col span={6}>
@@ -124,7 +130,10 @@ class MockExamEdit extends Component {
                         <Col span={6}>
                             <span>及格分:{passingScore}分</span>
                         </Col>
-
+                        {display === 2 &&
+                        <Col span={6}>
+                            <span style={{color: "red"}}>得分:{usrPaper.totalScore}分</span>
+                        </Col>}
                     </Row>
                     {questions.map((question, index) => {
                         return <div>
@@ -215,3 +224,15 @@ class MockExamEdit extends Component {
 }
 
 export default MockExamEdit;
+
+
+// totalScore: 0,
+
+// let {totalScore} = this.state;
+
+// let {questions = []} = usrPaper;
+// questions.map((obj, index) => {
+//     if (obj.answer === obj.userAnswer) {
+//         this.setState({totalScore: totalScore += 2})
+//     }
+// });

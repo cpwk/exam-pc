@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
-import {App, CTYPE,U} from "../../common";
+import {App, CTYPE, U} from "../../common";
 import {Card, Input, Checkbox, Radio, Button, message, Icon, Modal, Col} from "antd";
 import "../../assets/css/question/questionPractice.less"
+
+const reg = /^\"|\"$/g;
 
 class QuestionPractice extends Component {
 
@@ -66,6 +68,7 @@ class QuestionPractice extends Component {
     };
 
     render() {
+
         let {display, isDisplay, disabled, questions = []} = this.state;
         return <div>
             <Card className="mockExam">
@@ -109,6 +112,7 @@ class QuestionPractice extends Component {
                                             <Checkbox.Group value={questions[index].userAnswer}
                                                             disabled={disabled} onChange={(checkedValue) => {
                                                 questions[index].userAnswer = checkedValue;
+                                                console.log(questions);
                                                 this.setState({
                                                     questions
                                                 })

@@ -109,8 +109,7 @@ class ExamDetails extends Component {
                             <HeartIcon onClick={() => {
                                 this.Submit(question.id, question.collected, index)
                             }} style={question.collected === 1 ?
-                                {color: 'red', margin: "0 10px"} : {color: '#f1f1f1', margin: "0 10px"}}
-                            />
+                                {color: 'red', margin: "0 10px"} : {color: '#f1f1f1', margin: "0 10px"}}/>
                             {question.answer === question.userAnswer ?
                                 <Icon type="check" style={{color: "green", margin: "0 10px"}}/> :
                                 <span>

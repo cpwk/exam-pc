@@ -124,7 +124,7 @@ class Mistakes extends Component {
                         <div style={{margin: "20px 0"}}>
                             <Button type="primary" style={{height: "25px"}}
                                     htmlType="submit" onClick={() => {
-                                this.status(k.id)
+                                this.status(questions.id)
                             }}>移除</Button>
                         </div>
                     </div>

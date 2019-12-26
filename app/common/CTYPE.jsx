@@ -13,7 +13,7 @@ let CTYPE = (() => {
 
         difficulty: ['简单', '一般', '困难'],
 
-        ABC: ['A', 'B', 'C', 'D', 'E'],
+        ABC: ["A", "B", "C", "D", "E"],
 
         judge: [{id: "1", label: '对'}, {id: "2", label: '错'}],
 

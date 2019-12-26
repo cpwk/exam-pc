@@ -48,12 +48,14 @@ class MockExam extends Component {
 
     edit = () => {
         let {templateId} = this.state;
-        let id = templateId;
-        if (id === 0) {
+        if (templateId === 0) {
             message.warn("请选择模板");
             return;
         }
-        App.go(`/app/mockExam/mockExamEdit/${id}`);
+        App.api('/usr/usrPaper/saveMockExam', {templateId}).then((usrPaper) => {
+            let id = usrPaper.id;
+            App.go(`/app/mockExam/mockExamEdit/${id}`);
+        });
     };
 
     render() {
