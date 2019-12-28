@@ -5,6 +5,8 @@ import "../../assets/css/question/questionPractice.less"
 
 import moment, {duration} from 'moment';
 import 'moment/locale/zh-cn';
+import KvStorage from "../../common/KvStorage";
+import Pagination from "antd/es/pagination";
 
 moment.locale('zh-cn');
 
@@ -15,13 +17,14 @@ class MockExamEdit extends Component {
         this.state = {
             id: parseInt(this.props.match.params.id),
             usrPaper: {},
-            template: {},
-            display: 1,
-            disabled: false,
-            isDisplay: 1,
             count: 0,
-            totalTime: 0
-        }
+            pagination: {
+                pageSize: CTYPE.paginations.pageSize,
+                current: 1,
+                total: 0,
+            },
+        };
+        this.timerId = null;
     }
 
     componentDidMount() {
@@ -32,29 +35,35 @@ class MockExamEdit extends Component {
         this.timerId && clearInterval(this.timerId);
     }
 
+    _saveCookie = (usrPaper) => {
+        KvStorage.set('usrPaper_' + usrPaper.id, JSON.stringify(usrPaper));
+    };
+
     loadData = () => {
         let {id} = this.state;
-        App.api('/usr/usrPaper/start', {id}).then((result) => {
-            let {usrPaper = {}, template = {}} = result;
-            if (usrPaper.type === 1) {
-                this.setState({
-                    usrPaper,
-                    template,
-                    isDisplay: 2,
-                    disabled: true,
-                    display: 2,
-                    totalTime: U.date.seconds2MS(usrPaper.totalTime / 1000)
-                });
+        let usrPaper = App.getPaper(id);
+        if (usrPaper.id != null) {
+            this.initPaper(usrPaper);
+        } else {
+            App.api('/usr/usrPaper/start', {id}).then((result) => {
+                let {usrPaper = {}, template = {}} = result;
+                usrPaper.template = template;
+                this._saveCookie(usrPaper);
+                this.initPaper(usrPaper);
+            })
+        }
+    };
+
+    initPaper = (usrPaper) => {
+        let {template = {}, createdAt} = usrPaper;
+        let count = template.duration - (new Date().getTime() - createdAt);
+        this.setState({
+            usrPaper, count
+        }, () => {
+            if (usrPaper.type !== 1 && count > 0) {
+                this.countDown();
             }
-            this.setState({
-                    usrPaper,
-                    template,
-                    count: template.duration / 1000
-                }, () => {
-                    this.countDown()
-                }
-            );
-        })
+        });
     };
 
     countDown = () => {
@@ -62,41 +71,36 @@ class MockExamEdit extends Component {
             let {count} = this.state;
             if (count > 0) {
                 this.setState({
-                    count: count - 1,
+                    count: count - 1000,
                 });
             } else {
                 clearInterval(this.timerId);
                 message.warn("考试结束");
-                this.submit();
+                this.handleSubmit();
             }
         }, 1000);
     };
 
     handleSubmit = () => {
         clearInterval(this.timerId);
-        let _this = this;
         let {type = 1, usrPaper = {}, count} = this.state;
+        App.removeUsrPaper(usrPaper.id);
         usrPaper.type = type;
-        usrPaper.totalTime = count * 1000;
+        usrPaper.totalTime = count;
         App.api('/usr/usrPaper/end', {
             usrPaper: JSON.stringify(usrPaper)
         }).then((result) => {
             let {usrPaper = {}, template = {}} = result;
-            this.setState({
-                usrPaper,
-                template,
-            });
+            usrPaper.template = template;
+            this.setState({usrPaper});
             Modal.success({
                 title: "考试结束",
                 content: `本次考试共计得:${usrPaper.totalScore}分`,
                 okText: "确认",
                 keyboard: true,
-                onOk() {
-                    _this.setState({
-                        isDisplay: 2,
-                        disabled: true,
-                        display: 2,
-                        totalTime: U.date.seconds2MS(usrPaper.totalTime / 1000)
+                onOk: () => {
+                    this.setState({
+                        count: 0,
                     });
                 },
                 onCancel() {
@@ -105,15 +109,30 @@ class MockExamEdit extends Component {
         })
     };
 
+    onChange = (page) => {
+        let {pagination} = this.state;
+        this.setState({
+            pagination: {
+                ...pagination,
+                current: page
+            }
+        });
+    };
+
     render() {
-        let {display, disabled, isDisplay, usrPaper, count, template, totalTime} = this.state;
-        let {questions = [], paperName,} = usrPaper;
+
+        let {usrPaper, count, pagination} = this.state;
+        let {questions = [], paperName, template = {}, type} = usrPaper;
         let {totalScore, passingScore, difficulty} = template;
-        let _duration = U.date.seconds2MS(count);
+        let _duration = U.date.seconds2HMS(count / 1000);
+        let finished = type === 1 || count <= 0;
+        let _questions = questions.slice((pagination.current - 1) * pagination.pageSize, (pagination.current - 1) * pagination.pageSize + pagination.pageSize);
+
         return <div>
             <Card className="mockExam">
                 <div className="mockExam-time">
-                    {display === 1 ? <span>距离结束:{_duration}</span> : <span>用时:{totalTime}</span>}
+                    {!finished ? <span>距离结束:{_duration}</span> :
+                        <span>用时:{U.date.seconds2HMS(usrPaper.totalTime / 1000)}</span>}
                 </div>
                 <div className="mockExam-card">
                     <div className="mockExam-name">
@@ -130,45 +149,49 @@ class MockExamEdit extends Component {
                         <Col span={6}>
                             <span>及格分:{passingScore}分</span>
                         </Col>
-                        {display === 2 &&
+                        {finished &&
                         <Col span={6}>
                             <span style={{color: "red"}}>得分:{usrPaper.totalScore}分</span>
                         </Col>}
                     </Row>
-                    {questions.map((question, index) => {
-                        return <div>
+                    {_questions.map((question, index) => {
+                        return <div key={index}>
                             {index + 1 + (":") + "(" + CTYPE.displayType[`${question.type - 1}`] + ")"}
-                            {display === 2 && (question.answer === question.userAnswer ?
+                            {finished && (question.answer === question.userAnswer ?
                                 <Icon type="check" style={{color: "green"}}/> :
                                 <span style={{color: "red"}}>正确答案: {question.answer}</span>)}
                             <li dangerouslySetInnerHTML={{__html: question.topic}}/>
                             {question.type === 1 &&
                             <span>
                                 {question.options.map((obj, i) => {
-                                    return <Col span={12}>
+                                    return <Col span={12} key={i}>
                                         <Radio.Group value={questions[index].userAnswer}
-                                                     disabled={disabled}
+                                                     disabled={finished}
                                                      onChange={(e) => {
                                                          questions[index].userAnswer = e.target.value;
                                                          this.setState({
                                                              questions
+                                                         }, () => {
+                                                             this._saveCookie(usrPaper);
                                                          })
                                                      }}>
                                             <Radio value={CTYPE.ABC[i]}>{CTYPE.ABC[i]}.{obj}</Radio>
                                         </Radio.Group>
                                     </Col>
                                 })}
-                                    </span>}
+                                                         </span>}
                             {question.type === 2 &&
                             <Checkbox.Group value={questions[index].userAnswer}
-                                            disabled={disabled} onChange={(checkedValue) => {
+                                            disabled={finished} onChange={(checkedValue) => {
                                 questions[index].userAnswer = checkedValue;
                                 this.setState({
                                     questions
+                                }, () => {
+                                    this._saveCookie(usrPaper);
                                 })
                             }}>
                                 {question.options.map((obj, index) => {
-                                    return <Col span={12}>
+                                    return <Col span={12} key={index}>
                                         <Checkbox value={CTYPE.ABC[index]}
                                                   key={index}>{CTYPE.ABC[index]}.{obj}</Checkbox>
                                     </Col>
@@ -178,61 +201,62 @@ class MockExamEdit extends Component {
                             {question.type === 3 &&
                             <span>
                                 {CTYPE.judge.map((obj, i) => {
-                                    return <Radio.Group value={questions[index].userAnswer}
-                                                        disabled={disabled} onChange={(e) => {
+                                    return <Radio.Group key={i}
+                                                        value={questions[index].userAnswer}
+                                                        disabled={finished} onChange={(e) => {
                                         questions[index].userAnswer = e.target.value;
                                         this.setState({
                                             questions
+                                        }, () => {
+                                            this._saveCookie(usrPaper);
                                         })
                                     }}>
                                         <Radio value={obj.id}>{obj.label}</Radio>
                                     </Radio.Group>
                                 })}
-                                    </span>}
+                            </span>}
                             {question.type === 4 &&
                             <Input value={questions[index].userAnswer}
-                                   disabled={disabled} onChange={(e) => {
+                                   disabled={finished} onChange={(e) => {
                                 questions[index].userAnswer = e.target.value;
                                 this.setState({
                                     questions
+                                }, () => {
+                                    this._saveCookie(usrPaper);
                                 })
                             }}/>}
                             {question.type === 5 &&
                             <Input.TextArea rows={3} value={questions[index].userAnswer}
-                                            disabled={disabled} onChange={(e) => {
+                                            disabled={finished} onChange={(e) => {
                                 questions[index].userAnswer = e.target.value;
                                 this.setState({
                                     questions
+                                }, () => {
+                                    this._saveCookie(usrPaper);
                                 })
                             }}/>
                             }
                         </div>
                     })}
                     <div style={{marginTop: "50px"}}>
-                        {isDisplay === 1 &&
-                        <Button type="primary"
-                                style={{width: "300px", marginLeft: "37%"}}
-                                onClick={() => {
-                                    this.handleSubmit()
-                                }}
-                                htmlType="submit">点击提交</Button>}
+                        {!finished &&
+                        <Button type="primary" style={{width: "300px", marginLeft: "37%"}} onClick={() => {
+                            this.handleSubmit()
+                        }} htmlType="submit">点击提交</Button>}
                     </div>
                 </div>
+                <Pagination
+                    pageSize={pagination.pageSize}
+                    total={questions.length}
+                    current={pagination.current}
+                    onChange={(page) => {
+                        this.onChange(page)
+                    }}
+                    showTotal= {(total) => `总共 ${total} 条`}
+                />
             </Card>
         </div>
     }
 }
 
 export default MockExamEdit;
-
-
-// totalScore: 0,
-
-// let {totalScore} = this.state;
-
-// let {questions = []} = usrPaper;
-// questions.map((obj, index) => {
-//     if (obj.answer === obj.userAnswer) {
-//         this.setState({totalScore: totalScore += 2})
-//     }
-// });

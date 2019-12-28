@@ -46,7 +46,7 @@ class ExamDetails extends Component {
             this.setState({
                 usrPaper,
                 collects,
-                loading: false
+                loading: false,
             })
         });
     };
@@ -78,26 +78,26 @@ class ExamDetails extends Component {
     render() {
 
         let {usrPaper = {}} = this.state;
-        let {questions = [], totalScore, totalTime, paperName, difficulty} = usrPaper;
-
+        let {questions = [], totalScore, paperName, totalTime, difficulty} = usrPaper;
         return <div>
             <div className="mockExam-card">
                 <div style={{textAlign: "center"}}>
                     <h1>{paperName}</h1>
                 </div>
                 <div style={{margin: "30px 0", fontSize: "20px", fontWeight: 400}}>
-                    <Row>
-                        <Col span={6}>
+                    {usrPaper.type === 3 ? null :
+                        <Row>
+                            <Col span={6}>
                         <span>难度:<Rate disabled count={difficulty}
                                        value={difficulty}/></span>
-                        </Col>
-                        <Col span={6}>
-                            <span>用时:{U.date.seconds2MS(totalTime / 1000)}</span>
-                        </Col>
-                        <Col span={6}>
-                            <span>得分:{totalScore}分</span>
-                        </Col>
-                    </Row>
+                            </Col>
+                            <Col span={6}>
+                                <span>用时:{U.date.seconds2HMS(totalTime / 1000)}</span>
+                            </Col>
+                            <Col span={6}>
+                                <span>得分:{totalScore}分</span>
+                            </Col>
+                        </Row>}
                 </div>
                 {questions.map((question, index) => {
                     return <div>
@@ -110,12 +110,12 @@ class ExamDetails extends Component {
                                 this.Submit(question.id, question.collected, index)
                             }} style={question.collected === 1 ?
                                 {color: 'red', margin: "0 10px"} : {color: '#f1f1f1', margin: "0 10px"}}/>
-                            {question.answer === question.userAnswer ?
+                            {usrPaper.type === 3 ? null : (question.answer === question.userAnswer ?
                                 <Icon type="check" style={{color: "green", margin: "0 10px"}}/> :
                                 <span>
                                 <Icon type="close" style={{color: "red", margin: "0 10px"}}/>
                             <Tooltip title={`参考答案: ${question.answer}`}>
-                                <Icon type='question-circle'/></Tooltip></span>}
+                                <Icon type='question-circle'/></Tooltip></span>)}
                             <div dangerouslySetInnerHTML={{__html: question.topic}}/>
                         </div>
                         {question.type === 1 &&

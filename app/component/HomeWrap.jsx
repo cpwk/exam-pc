@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {BackTop, LocaleProvider} from 'antd';
+import {BackTop, ConfigProvider} from 'antd';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 
 import '../assets/css/common.scss'
@@ -37,7 +37,7 @@ export default class HomeWrap extends React.Component {
     };
 
     render() {
-        return <LocaleProvider locale={zhCN} style={{height: '100%'}}>
+        return <ConfigProvider locale={zhCN} style={{height: '100%'}}>
             <div className='home-wrap'>
                 <Header/>
                 <div className='inner-page'>
@@ -47,7 +47,7 @@ export default class HomeWrap extends React.Component {
                 <Robot/>
                 <BackTop/>
             </div>
-        </LocaleProvider>
+        </ConfigProvider>
     }
 }
 

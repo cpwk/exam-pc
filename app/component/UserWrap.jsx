@@ -1,8 +1,7 @@
 import React from 'react';
 
-import {Card, Icon, LocaleProvider, Menu, Modal} from 'antd';
+import {Card, Icon, ConfigProvider, Menu, Modal} from 'antd';
 import {Link} from 'react-router-dom';
-import BreadcrumbCustom from './BreadcrumbCustom';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 import '../assets/css/common.scss'
 import '../assets/css/page/home-wrap.scss'
@@ -42,7 +41,7 @@ export default class UserWrap extends React.Component {
 
     render() {
         let {user = {}} = this.state;
-        return <LocaleProvider locale={zhCN} style={{height: '100%'}}>
+        return <ConfigProvider locale={zhCN} style={{height: '100%'}}>
             <div className='home-wrap trainee-wrap'>
                 <Header/>
 
@@ -89,6 +88,6 @@ export default class UserWrap extends React.Component {
                 </div>
                 <Footer/>
             </div>
-        </LocaleProvider>
+        </ConfigProvider>
     }
 }

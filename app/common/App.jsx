@@ -1,12 +1,10 @@
 import fetch from 'isomorphic-fetch'
 import {message} from 'antd';
 import KvStorage from './KvStorage.jsx';
-import createHashHistory from 'history/createHashHistory';
 import {U} from "./index";
 import UserProfile from "../component/user/UserProfile";
-import Utils from "./Utils";
 
-const hashHistory = createHashHistory();
+const hashHistory = require("history").createHashHistory();
 
 let ENV_CONFIG;
 if (process.env.API_ENV == 'dev') {
@@ -28,6 +26,10 @@ let getCookie = (k) => KvStorage.get(k);
 let removeCookie = (k) => KvStorage.remove(k);
 let getUserProfile = function () {
     return JSON.parse(getCookie('user-profile') || '{}');
+};
+
+let getPaper = (id) => {
+    return JSON.parse(getCookie('usrPaper_' + id) || '{}');
 };
 
 const go = function (hash) {
@@ -122,10 +124,14 @@ let logout = () => {
     UserProfile.clear();
 };
 
+let removeUsrPaper = (id) => {
+    removeCookie('usrPaper_' + id);
+};
+
 let afterSignin = (k, v) => {
     saveCookie(k, v);
 };
 
 export default {
-    go, api, API_BASE, logout, afterSignin, getCookie, getUserProfile
+    go, api, API_BASE, logout, afterSignin, getCookie, getUserProfile, removeUsrPaper, getPaper
 };

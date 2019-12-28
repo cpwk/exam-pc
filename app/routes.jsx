@@ -19,6 +19,7 @@ import PracticeRecord from "./component/user/PracticeRecord";
 import ExamDetails from "./component/user/ExamDetails";
 import Mistakes from "./component/user/Mistakes";
 import Collect from "./component/user/Collect";
+import Home from "./component/page/Home";
 
 
 const routes = (
@@ -49,6 +50,7 @@ const routes = (
                         <Route path='/app/question/questionPractice/:str' exact component={QuestionPractice}/>
                         <Route path='/mockExam' exact component={MockExam}/>
                         <Route path='/app/mockExam/mockExamEdit/:id' exact component={MockExamEdit}/>
+                        <Route path='/' exact component={Home}/>
                     </Switch>
                 </HomeWrap>
             )}>

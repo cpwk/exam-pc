@@ -96,6 +96,7 @@ class PracticeRecord extends Component {
                 <TabPane tab="全部记录" key={0}/>
                 <TabPane tab="考试记录" key={1}/>
                 <TabPane tab="练习记录" key={2}/>
+                <TabPane tab="无效试卷" key={3}/>
             </Tabs>
 
             <Table
@@ -130,7 +131,7 @@ class PracticeRecord extends Component {
                     className: 'txt-center',
                     render: (totalTime) => {
                         return <div>
-                            {<span>{U.date.seconds2MS(totalTime / 1000)}</span>}
+                            {<span>{U.date.seconds2HMS(totalTime / 1000)}</span>}
                         </div>
                     }
                 }, {

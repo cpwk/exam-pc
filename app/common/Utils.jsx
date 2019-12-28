@@ -1,124 +1,3 @@
-// import React from 'react';
-// import ReactDOM from 'react-dom';
-// import {LocaleProvider} from 'antd';
-// import zhCN from 'antd/lib/locale-provider/zh_CN';
-//
-// import ImgLightbox from "./update/ImgLightbox";
-// import {NameCard} from "../component/Comps";
-//
-// let Utils = (function () {
-//
-//     let _setCurrentPage = (key, pageno) => {
-//         sessionStorage.setItem(key, pageno);
-//     };
-//
-//     let _getCurrentPage = (key) => {
-//         return sessionStorage.getItem(key) ? parseInt(sessionStorage.getItem(key)) : 1
-//     };
-//
-//     let common = (() => {
-//
-//         let renderReactDOM = (child, options = {}) => {
-//
-//             let div = document.createElement('div');
-//             let {id} = options;
-//             if (id) {
-//                 let e = document.getElementById(id);
-//                 if (e) {
-//                     document.body.removeChild(e);
-//                 }
-//                 div.setAttribute('id', id);
-//             } else {
-//
-//             }
-//
-//             document.body.appendChild(div);
-//             ReactDOM.render(<LocaleProvider locale={zhCN}>{child}</LocaleProvider>, div);
-//         };
-//
-//         let closeModalContainer = (id_div) => {
-//             let e = document.getElementById(id_div);
-//             if (e) {
-//                 document.body.removeChild(e);
-//             }
-//         };
-//
-//         let createModalContainer = (id_div) => {
-//             //强制清理同名div，render会重复创建modal
-//             closeModalContainer(id_div);
-//             let div = document.createElement('div');
-//             div.setAttribute('id', id_div);
-//             document.body.appendChild(div);
-//             return div;
-//         };
-//
-//         let scrollTop = function () {
-//
-//             let x = document.body.scrollTop || document.documentElement.scrollTop;
-//             let timer = setInterval(function () {
-//                 x = x - 100;
-//                 if (x < 100) {
-//                     x = 0;
-//                     window.scrollTo(x, x);
-//                     clearInterval(timer);
-//                 }
-//                 window.scrollTo(x, x);
-//             }, 20);
-//         };
-//
-//         //
-//         let showImgLightbox = (images, index) => {
-//             common.renderReactDOM(<ImgLightbox images={images} index={index} show={true}/>);
-//         };
-//         //
-//         let showImgEditor = (aspectRatio, img, syncImg) => {
-//             common.renderReactDOM(<ImgEditor aspectRatio={aspectRatio} img={img}
-//                                              syncImg={syncImg}/>, {id: 'div-img-editor'});
-//         };
-//
-//         return {
-//             renderReactDOM, closeModalContainer, createModalContainer, scrollTop, showImgEditor
-//         }
-//     })();
-//
-//     let pager = (() => {
-//
-//         let convert2Pagination = (result) => {
-//
-//             let {pageable = {}, totalElements, totalPages} = result;
-//
-//             let pageSize = pageable.pageSize || CTYPE.pagination.pageSize;
-//             let current = pageable.pageNumber + 1;
-//
-//             return {
-//                 current,
-//                 total: totalElements, totalPages,
-//                 pageSize
-//             }
-//         };
-//
-//         return {convert2Pagination}
-//
-//     })();
-//
-//     let namecard = (() => {
-//         let show = (options) => {
-//             common.renderReactDOM(<NameCard card={namecard} options={options}/>, {id: 'div-namecard'});
-//         };
-//
-//         return {show}
-//
-//     })();
-//
-//     return {
-//         common, pager, namecard
-//     };
-//
-// })();
-//
-// export default Utils;
-
-
 import NProgress from 'nprogress';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -127,7 +6,7 @@ import {App, CTYPE, KvStorage} from "./index";
 import ImgLightbox from "./update/ImgLightbox";
 import ImgEditor from "./update/ImgEditor";
 
-import {Alert, LocaleProvider, Modal} from 'antd';
+import {Alert, ConfigProvider, Modal} from 'antd';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 import DialogExport from "./DialogExport";
 import XiumiEditor from "./XiumiEditor";
@@ -198,7 +77,7 @@ let Utils = (function () {
             }
 
             document.body.appendChild(div);
-            ReactDOM.render(<LocaleProvider locale={zhCN}>{child}</LocaleProvider>, div);
+            ReactDOM.render(<ConfigProvider locale={zhCN}>{child}</ConfigProvider>, div);
         };
 
         let closeModalContainer = (id_div) => {

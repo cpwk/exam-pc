@@ -1,29 +1,22 @@
 import React, {Component} from 'react';
-import {App, CTYPE, Utils, U} from "../../common";
-import {Button, Card, Col, Row, Select, Input, Rate, Modal, message, Icon, Tooltip} from "antd";
-import BreadcrumbCustom from "../BreadcrumbCustom";
-import Link from "react-router-dom/Link";
+import {App, CTYPE, U} from "../../common";
+import {Button, Card, Select, Modal, message, Icon, Tooltip} from "antd";
 import Pagination from "antd/es/pagination";
-import OnCollect from "./OnCollect";
 
 const {Option} = Select;
-const InputSearch = Input.Search;
 
 class Mistakes extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            id: parseInt(this.props.match.params.id),
             mistakes: [],
             loading: false,
-            type: 0,
-            status: 1,
-            list: [],
-            totalElements: 0,
-            pageSize: CTYPE.pagination.pageSize,
-            pageNumber: 1,
-
+            pagination: {
+                pageSize: CTYPE.pagination.pageSize,
+                current: 1,
+                total: 0,
+            },
         }
     }
 
@@ -33,28 +26,12 @@ class Mistakes extends Component {
     }
 
     loadData = () => {
-        let {pageNumber, pageSize, id} = this.state;
         this.setState({loading: true});
-        App.api('/usr/mistakes/mistakes_list', {
-            mistakesQo: JSON.stringify({
-                ...this.getQuery(),
-                pageNumber,
-                pageSize,
-                userId: id
-            })
-        }).then((mistakes) => {
-            let {content = [], totalElements, pageable = {}} = mistakes;
-            let {pageSize} = pageable;
-            this.setState({list: content, totalElements, pageSize});
+        App.api('/usr/mistakes/mistakes_list', {}).then((mistakes) => {
+            this.setState({
+                mistakes: mistakes.questions
+            });
         });
-    };
-
-    getQuery = () => {
-        let {type, status} = this.state;
-        let query = {};
-        query.type = type;
-        query.status = status;
-        return query;
     };
 
     status = (id) => {
@@ -71,8 +48,21 @@ class Mistakes extends Component {
         })
     };
 
+    onChange = (page) => {
+        let {pagination} = this.state;
+        this.setState({
+            pagination: {
+                ...pagination,
+                current: page
+            }
+        });
+    };
+
     render() {
-        let {list = [], totalElements, pageNumber, pageSize} = this.state;
+        let {mistakes = [], pagination} = this.state;
+
+        let _mistakes = mistakes.slice((pagination.current - 1) * pagination.pageSize, (pagination.current - 1) * pagination.pageSize + pagination.pageSize);
+
         return <div>
             <Card
                 title={"我的错题"}
@@ -91,8 +81,7 @@ class Mistakes extends Component {
                     </Select>
                 }
             >
-                {list.map((questions, index) => {
-                    let {question = []} = questions;
+                {_mistakes.map((question, index) => {
                     return <div>
                         {index + 1 + (":") + "(" + CTYPE.displayType[`${question.type - 1}`] + ")"}
                         {question.answer === question.userAnswer ?
@@ -129,26 +118,16 @@ class Mistakes extends Component {
                         </div>
                     </div>
                 })}
+                <Pagination
+                    pageSize={pagination.pageSize}
+                    total={mistakes.length}
+                    current={pagination.current}
+                    onChange={(page) => {
+                        this.onChange(page)
+                    }}
+                    showTotal={(total) => `总共 ${total} 条`}
+                />
             </Card>
-            <Pagination
-                style={{float: 'right', marginTop: '10px'}}
-                showSizeChanger
-                onChange={(page, pageSize) => {
-                    this.setState({pageNumber: page, pageSize}, () => {
-                        this.loadData()
-                    })
-                }}
-                onShowSizeChange={(current, size) => {
-                    this.setState({
-                        pageNumber: current,
-                        pageSize: size
-                    }, () => {
-                        this.loadData();
-                    })
-                }}
-                defaultCurrent={pageNumber}
-                pageSize={pageSize}
-                total={totalElements}/>
         </div>
     }
 }

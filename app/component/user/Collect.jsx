@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {App, CTYPE, U} from "../../common";
-import {Card, Row, Select, Input, Button, Col, Rate, message, Icon, Modal, Tooltip} from "antd";
+import {Card, Select, message, Icon, Modal, Tooltip} from "antd";
 import Pagination from "antd/es/pagination";
 
 const {Option} = Select;
@@ -133,31 +133,28 @@ class Collect extends Component {
                                 })}
                             </li>}
                         </ul>
-                        {/*<div style={{margin: "10px 0"}}>*/}
-                        {/*    <span style={{color: "green"}}>参考答案: {question.answer}</span>*/}
-                        {/*</div>*/}
                     </div>
                 })}
             </Card>
             <Pagination
-                style={{float: 'right', marginTop: '10px'}}
-                showSizeChanger
-                onChange={(page, pageSize) => {
-                    this.setState({pageNumber: page, pageSize}, () => {
-                        this.loadData()
-                    })
-                }}
-                onShowSizeChange={(current, size) => {
-                    this.setState({
-                        pageNumber: current,
-                        pageSize: size
-                    }, () => {
-                        this.loadData();
-                    })
-                }}
-                defaultCurrent={pageNumber}
-                pageSize={pageSize}
-                total={totalElements}/>
+            style={{float: 'right', marginTop: '10px'}}
+            showSizeChanger
+            onChange={(page, pageSize) => {
+                this.setState({pageNumber: page, pageSize}, () => {
+                    this.loadData()
+                })
+            }}
+            onShowSizeChange={(current, size) => {
+                this.setState({
+                    pageNumber: current,
+                    pageSize: size
+                }, () => {
+                    this.loadData();
+                })
+            }}
+            defaultCurrent={pageNumber}
+            pageSize={pageSize}
+            total={totalElements}/>
         </div>
     }
 }

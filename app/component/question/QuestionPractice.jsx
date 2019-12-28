@@ -3,8 +3,6 @@ import {App, CTYPE, U} from "../../common";
 import {Card, Input, Checkbox, Radio, Button, message, Icon, Modal, Col} from "antd";
 import "../../assets/css/question/questionPractice.less"
 
-const reg = /^\"|\"$/g;
-
 class QuestionPractice extends Component {
 
     constructor(props) {
