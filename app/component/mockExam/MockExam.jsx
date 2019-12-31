@@ -88,7 +88,7 @@ class MockExam extends Component {
                 ret = ctg.endsWith('0000') && ctg.substr(0, 2) === code1;
             }
             if (show2 && !show3) {
-                ret = ctg.endsWith('00') && ctg.substr(0, 4) === code2;
+                ret = ctg.endsWith('00') && ctg.substr(0, 2) === code1;
             }
             if (show2 && show3) {
                 ret = ctg === sequence
@@ -171,3 +171,20 @@ class MockExam extends Component {
 }
 
 export default MockExam;
+
+
+// let _template = template.filter(item => {
+//     let {category = {}} = item;
+//     let ctg = category.sequence;
+//     let ret = false;
+//     if (!show2) {
+//         ret = ctg.endsWith('0000') && ctg.substr(0, 2) === code1;
+//     }
+//     if (show2 && !show3) {
+//         ret = ctg.endsWith('00') && ctg.substr(0, 4) === code2;
+//     }
+//     if (show2 && show3) {
+//         ret = ctg === sequence
+//     }
+//     return ret;
+// });
