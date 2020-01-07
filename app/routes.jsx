@@ -20,6 +20,7 @@ import ExamDetails from "./component/user/ExamDetails";
 import Mistakes from "./component/user/Mistakes";
 import Collect from "./component/user/Collect";
 import Home from "./component/page/Home";
+// import About from "./component/page/About";
 
 
 const routes = (
@@ -51,6 +52,7 @@ const routes = (
                         <Route path='/mockExam' exact component={MockExam}/>
                         <Route path='/app/mockExam/mockExamEdit/:id' exact component={MockExamEdit}/>
                         <Route path='/' exact component={Home}/>
+                        {/*<Route path='/page/about' exact component={About}/>*/}
                     </Switch>
                 </HomeWrap>
             )}>

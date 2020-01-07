@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Button, Collapse, Form, message, Modal, Radio, Rate} from "antd";
 import "../../assets/css/question/exam.less"
 import {App, CTYPE, Utils} from "../../common";
+import UserProfile from "../user/UserProfile";
 
 const {Panel} = Collapse;
 const desc = ['简单', '一般', '困难'];
@@ -23,6 +24,11 @@ class MockExam extends Component {
     }
 
     componentDidMount() {
+        // UserProfile.get().then((profile) => {
+        //     let {user = {}} = profile;
+        //     this.setState({user});
+        //     console.log(user);
+        // });
         this.loadData();
     }
 
@@ -88,7 +94,7 @@ class MockExam extends Component {
                 ret = ctg.endsWith('0000') && ctg.substr(0, 2) === code1;
             }
             if (show2 && !show3) {
-                ret = ctg.endsWith('00') && ctg.substr(0, 2) === code1;
+                ret = ctg.endsWith('00') && ctg.substr(0, 4) === code2;
             }
             if (show2 && show3) {
                 ret = ctg === sequence
@@ -171,6 +177,26 @@ class MockExam extends Component {
 }
 
 export default MockExam;
+
+
+// let code1, code2;
+// let show2 = false;
+// let show3 = false;
+// if (sequence.length === 6) {
+//     if (sequence.endsWith('0000')) {
+//         show2 = true;
+//     } else if (sequence.endsWith('00')) {
+//         show2 = true;
+//         show3 = true;
+//     } else {
+//         show2 = true;
+//         show3 = true;
+//     }
+//
+//     code1 = sequence.substr(0, 2);
+//     code2 = sequence.substr(0, 4);
+//
+// }
 
 
 // let _template = template.filter(item => {

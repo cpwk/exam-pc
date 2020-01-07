@@ -3,8 +3,10 @@ import {Input, Form, Select, Carousel, Icon, message, InputNumber} from 'antd';
 import App from "../../common/App"
 import "../../assets/css/common/user_sign_up.less"
 import {CTYPE, U} from "../../common";
+import {Banners} from "../Comps";
 
 const {Option} = Select;
+const bannerType = CTYPE.bannerTypes.SIGNUP;
 
 export default class UserSignUp extends React.Component {
 
@@ -18,9 +20,20 @@ export default class UserSignUp extends React.Component {
             key: 0,
             vCode: '',
             accountType: 1,
-            account: ''
+            account: '',
+            banners: []
         }
     }
+
+    componentDidMount() {
+        this.loadData();
+    }
+
+    loadData = () => {
+        App.api('/pc/home/banners', {bannerQo: JSON.stringify({type: bannerType})}).then((banners) => {
+            this.setState({banners})
+        });
+    };
 
     handleSubmit = () => {
         let {user, vCode, key, accountType} = this.state;
@@ -39,7 +52,7 @@ export default class UserSignUp extends React.Component {
         let {key, user, accountType} = this.state;
         let {mobile} = user;
         if (!U.str.isChinaMobile(mobile)) {
-            message.warn("请输入手机号码")
+            message.error("请输入正确的手机号")
         } else {
             key = Date.now();
             App.api("/send/file", {
@@ -53,28 +66,34 @@ export default class UserSignUp extends React.Component {
 
     render() {
 
-        let {vCode, user = {}, see, errorPassword, tipsName, errorUserName} = this.state;
+        let {vCode, user = {}, see, errorPassword, tipsName, errorUserName,banners} = this.state;
         let {name, password, username, mobile} = user;
         let {code} = vCode;
         return <div className="page_signup">
             <div className="signup-img">
-                <Carousel autoplay style={{width: "100%", height: "100%"}}>
-                    <div className="box">
-                        <img src="../../assets/img/hu.jpeg" className="lbt"/>
-                    </div>
-                    <div className="box">
-                        <img src="../../assets/img/li.jpeg" className="lbt"/>
-                    </div>
-                    <div className="box">
-                        <img src="../../assets/img/tu.jpeg" className="lbt"/>
-                    </div>
-                </Carousel>
+
+                <div className='home-page'>
+                    {banners.length > 0 && <Banners banners={banners} bannerType={bannerType}/>}
+                </div>
+                {/*<Carousel autoplay style={{width: "100%", height: "100%"}}>*/}
+                {/*    <div className="box">*/}
+                {/*        <img src="../../assets/img/hu.png" className="lbt"/>*/}
+                {/*    </div>*/}
+                {/*    <div className="box">*/}
+                {/*        <img src="../../assets/img/li.jpeg" className="lbt"/>*/}
+                {/*    </div>*/}
+                {/*    <div className="box">*/}
+                {/*        <img src="../../assets/img/tu.jpeg" className="lbt"/>*/}
+                {/*    </div>*/}
+                {/*</Carousel>*/}
                 <div className="logo"/>
             </div>
 
             <div className="signup">
                 <div className="signup-top">
-                    <a href="">登录</a>
+                    <a onClick={()=>{
+                        App.go("login")
+                    }}>登录</a>
                     <span></span>
                     <a href="">意见反馈</a>
                 </div>
@@ -129,7 +148,7 @@ export default class UserSignUp extends React.Component {
                 {
                     see === 0 && <div className="a">
                         <Form.Item {...CTYPE.formItemLayout} required="true" label="验证码">
-                            <Input value={code} style={{width: "250px"}} placeholder="短信验证码"
+                            <Input value={code} style={{width: "55%"}} placeholder="短信验证码"
                                    onChange={(e) => {
                                        this.setState({
                                            vCode: {

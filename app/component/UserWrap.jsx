@@ -71,17 +71,10 @@ export default class UserWrap extends React.Component {
                                 <Link to={`/usr/mistakes/${user.id}`}><Icon type="file-pdf"/><span
                                     className="nav-text">错题本</span></Link>
                             </Menu.Item>
-                            {/*<Menu.Item><Icon type="file-pdf"/><span*/}
-                            {/*    className="nav-text">我的收藏</span></Menu.Item>*/}
-                            {/*<SubMenu title={<span><Icon type="schedule"/>错题本</span>}>*/}
-                            {/*    <Menu.Item>全部错题</Menu.Item>*/}
-                            {/*    <Menu.Item>试卷错题</Menu.Item>*/}
-                            {/*</SubMenu>*/}
-
-                            <Menu.Item>
-                                <a onClick={this.logout}><Icon type="logout"/><span
-                                    className="nav-text">注销</span></a>
-                            </Menu.Item>
+                            {/*<Menu.Item>*/}
+                            {/*    <a onClick={this.logout}><Icon type="logout"/><span*/}
+                            {/*        className="nav-text">注销</span></a>*/}
+                            {/*</Menu.Item>*/}
                         </Menu>
 
                     </div>

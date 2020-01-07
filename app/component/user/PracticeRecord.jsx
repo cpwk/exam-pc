@@ -18,7 +18,8 @@ class PracticeRecord extends Component {
             usrPaper: [],
             questions: [],
             loading: false,
-            type: 0
+            type: 0,
+            status: 1
         }
     }
 
@@ -53,9 +54,10 @@ class PracticeRecord extends Component {
     };
 
     getQuery = () => {
-        let {type} = this.state;
+        let {type,status} = this.state;
         let query = {};
         query.type = type;
+        query.status = status;
         return query;
     };
 
@@ -96,7 +98,7 @@ class PracticeRecord extends Component {
                 <TabPane tab="全部记录" key={0}/>
                 <TabPane tab="考试记录" key={1}/>
                 <TabPane tab="练习记录" key={2}/>
-                <TabPane tab="无效试卷" key={3}/>
+                <TabPane tab="未作答" key={3}/>
             </Tabs>
 
             <Table

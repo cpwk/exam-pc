@@ -1,5 +1,5 @@
 import React from 'react'
-import {Avatar, Button, Carousel, Comment, Input, List, message, Modal} from 'antd'
+import {Avatar, Button, Carousel, Comment, Input, List, message, Modal, Dropdown, Menu} from 'antd'
 import '../assets/css/comps.scss'
 import {App, CTYPE, U, Utils} from "../common";
 import UserProfile from "./user/UserProfile";
@@ -11,9 +11,11 @@ const id_div_free_box = 'id_div_free_box';
 
 const menus = [{
     cn: '首页', path: '/'
-}, {
-    cn: '题库', path: '/e'
-}, {
+},
+//     {
+//     cn: '题库', path: '/e'
+// },
+    {
     cn: '练习', path: '/question'
 }, {
     cn: '模拟考试', path: '/mockExam'
@@ -25,7 +27,7 @@ const menus = [{
 // },
     {
         cn: '关于我们',
-        path: '/about'
+        path: '/page/about'
     }];
 
 class Header extends React.Component {
@@ -44,8 +46,33 @@ class Header extends React.Component {
         });
     }
 
+    logout = () => {
+        Modal.confirm({
+            title: '确定要退出吗?',
+            content: null,
+            onOk() {
+                App.logout();
+                App.go('/');
+            },
+            onCancel() {
+            },
+        });
+    };
+
     render() {
         let {user = {}} = this.state;
+
+        const menu = (
+            <Menu>
+                <Menu.Item key="1" onClick={() => {
+                    App.go('/resetPassword')
+                }}>修改密码</Menu.Item>
+                <Menu.Item key="2" onClick={() => {
+                    this.logout()
+                }}>退出登录</Menu.Item>
+            </Menu>
+        );
+
         return <div className="top-header">
             <div className="inner">
                 <a href='/'>
@@ -53,7 +80,16 @@ class Header extends React.Component {
                 </a>
 
                 {!user.id && <div className='btn' onClick={() => App.go('/login')}>登录</div>}
-                {user.id && <div className='btn' onClick={() => App.go('/usr/profile')}>个人中心</div>}
+                {/*{user.id && <div className='btn' onClick={() => App.go('/usr/profile')}>个人中心</div>}*/}
+
+
+                {user.id &&
+                <Dropdown className='btn' overlay={menu}>
+                    <a className="ant-dropdown-link" onClick={() => App.go('/usr/profile')}>
+                        个人中心
+                    </a>
+
+                </Dropdown>}
 
                 <ul>
                     {menus.map((menu, index) => {
@@ -158,7 +194,7 @@ class Banners extends React.Component {
                 {banners.map((banner, index) => {
                     let {img, title} = banner;
                     return <div key={index} className='item'>
-                        <div className='item'
+                        <div className={`item item-${bannerType}`}
                              style={{
                                  backgroundImage: `url(${img})`,
                                  backgroundPosition: '50% 50%',

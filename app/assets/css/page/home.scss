@@ -9,8 +9,13 @@
     .ant-carousel {
       height: 655px;
 
-      .item {
+      .item-1 {
         height: 655px;
+      }
+
+      .item-2 {
+        width: 100%;
+        height: 100vh;
       }
     }
   }

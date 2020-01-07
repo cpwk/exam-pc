@@ -4,9 +4,7 @@ import {CTYPE, U} from "../../common";
 import App from "../../common/App";
 import "../../assets/css/common/tabs.less"
 
-
 const {TabPane} = Tabs;
-
 
 export default class ResetPassword extends React.Component {
 
@@ -41,7 +39,8 @@ export default class ResetPassword extends React.Component {
             vCode: JSON.stringify({accountType, account: username, code, key})
         }).then(() => {
             message.success('修改成功');
-            this.setState({key});
+            // this.setState({key});
+            App.logout();
             App.go('/success')
         })
     };

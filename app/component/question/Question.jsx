@@ -134,7 +134,7 @@ class Question extends Component {
                                                                style={{marginLeft: '5px'}}>
                                     {type === 1 ? '单选' : type === 2 ? '多选' :
                                         type === 3 ? '判断' : type === 4 ? '填空' : '问答'}题</span>
-                                        <InputNumber min={0} value={number} style={{width: '70px'}}
+                                        <InputNumber min={0} max={999} value={number} style={{width: '70px'}}
                                                      onChange={(value) => {
                                                          content[index].number = value;
                                                          this.setState({

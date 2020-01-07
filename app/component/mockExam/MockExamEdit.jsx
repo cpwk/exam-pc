@@ -127,7 +127,6 @@ class MockExamEdit extends Component {
         let _duration = U.date.seconds2HMS(count / 1000);
         let finished = type === 1 || count <= 0;
         let _questions = questions.slice((pagination.current - 1) * pagination.pageSize, (pagination.current - 1) * pagination.pageSize + pagination.pageSize);
-
         return <div>
             <Card className="mockExam">
                 <div className="mockExam-time">
@@ -155,6 +154,8 @@ class MockExamEdit extends Component {
                         </Col>}
                     </Row>
                     {_questions.map((question, index) => {
+                        console.log(question.answer);
+                        console.log(question.userAnswer);
                         return <div key={index}>
                             {index + 1 + (":") + "(" + CTYPE.displayType[`${question.type - 1}`] + ")"}
                             {finished && (question.answer === question.userAnswer ?

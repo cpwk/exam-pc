@@ -27,11 +27,11 @@ export default class Success extends React.Component {
                     subTitle="这里可以放一排小提示"
                     extra={[
                         <Button type="primary" key="console" onClick={() => {
-                            App.go("/")
+                            App.go("/login")
                         }}>
                             立刻登录
                         </Button>,
-                        <Button key="buy">返回首页</Button>,
+                        <Button key="buy" onClick={()=>{App.go("/")}}>返回首页</Button>,
                     ]}
                 />
             </div>

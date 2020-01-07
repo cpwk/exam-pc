@@ -94,11 +94,17 @@ const api = (path, params, options) => {
                 var code = ret.errcode;
                 if (code !== 0) {
                     if (code === 5) {
-                        //登录会话过期
+                        // 登录会话过期
                         message.warn('请重新登录');
                         logout();
                         go('/');
                         return;
+                        // <Result
+                        //     status="403"
+                        //     title="403"
+                        //     subTitle="Sorry, you are not authorized to access this page."
+                        //     extra={<Button type="primary">Back Home</Button>}
+                        // />
                     }
                     rejectWrap(ret);
                     return;

@@ -1,5 +1,5 @@
 import React from "react";
-import {Tabs, Input, message, Icon, Button} from "antd";
+import {Tabs, Input, message, Icon, Button, Row, Col} from "antd";
 import {U} from "../../common";
 import App from "../../common/App";
 import "../../assets/css/common/userlogin.less";
@@ -15,14 +15,15 @@ export default class Login extends React.Component {
             user: {},
             vCode: {},
             key: 0,
-            // accountType: 1,
             type: 1
         }
     }
 
-    callback = (key) => {
-        this.setState({type: parseInt(key), user: {}, vCode: {}})
-    };
+    componentDidMount() {
+        this.genValCode();
+        //未授权从index被拦截回login时清除loading效果
+        message.destroy();
+    }
 
     handleSubmit = () => {
         let {user, key, accountType, vCode} = this.state;
@@ -45,10 +46,8 @@ export default class Login extends React.Component {
         let {username} = user;
         if (U.str.isChinaMobile(username)) {
             this.setState({accountType: 1});
-            // accountType = 1;
         } else if (U.str.isEmail(username)) {
             this.setState({accountType: 2});
-            // accountType = 2;
         } else {
             this.setState({accountType: 3})
         }
@@ -61,10 +60,29 @@ export default class Login extends React.Component {
         })
     };
 
+    genValCode = () => {
+        let key = new Date().getTime();
+        this.setState({
+            img_src: App.API_BASE + '/common/gen_valCode_signin?key=' + key,
+            key: key,
+            vCode: {}
+        });
+    };
+
+    callback = (key) => {
+        if (key == 1) {
+            this.genValCode()
+        }
+        this.setState({type: parseInt(key), user: {}, vCode: {}})
+    };
+
     render() {
         let {user, vCode, type} = this.state;
         let {username, password} = user;
         let {code} = vCode;
+
+        let {img_src} = this.state;
+
         return <div className="bac">
             <div className="bac-content">
                 <div>
@@ -88,46 +106,64 @@ export default class Login extends React.Component {
                                }}
                         />
                     </div>
-                    {
-                        type !== 1 ? <div>
-                                <Input style={{width: "65%"}} value={code} placeholder="请输入验证码"
-                                       onChange={(e) => {
-                                           this.setState({
-                                               vCode: {
-                                                   ...vCode,
-                                                   code: e.target.value
-                                               }
-                                           })
-                                       }}/>
-                                <Button style={{width: "30%", float: 'right'}} type='primary' htmlType='submit'
-                                        onClick={() => {
-                                            this.submit()
-                                        }}>
-                                    发送验证码</Button>
-                            </div>
-                            :
-                            <div>{type === 1 && <Input.Password
-                                value={password} placeholder="请输入密码"
-                                maxLength="18"
-                                prefix={<Icon type="lock"/>}
-                                onChange={(e) => {
+                    {type !== 1 ?
+                        <div>
+                            <Input style={{width: "65%"}} value={code} placeholder="请输入验证码"
+                                   onChange={(e) => {
+                                       this.setState({
+                                           vCode: {
+                                               ...vCode,
+                                               code: e.target.value
+                                           }
+                                       })
+                                   }}/>
+                            <Button style={{width: "30%", float: 'right'}} type='primary' htmlType='submit'
+                                    onClick={() => {
+                                        this.submit()
+                                    }}>
+                                发送验证码</Button>
+                        </div>
+                        :
+                        <div>
+                            {type === 1 &&
+                            <Input.Password value={password} placeholder="请输入密码" maxLength="18"
+                                            prefix={<Icon type="lock"/>}
+                                            onChange={(e) => {
+                                                this.setState({
+                                                    user: {
+                                                        ...user,
+                                                        password: e.target.value
+                                                    }
+                                                })
+                                            }}/>
+                            }
+                            <Row>
+                                <Input value={code} placeholder="验证码" style={{width: '65%'}} onChange={(e) => {
                                     this.setState({
-                                        user: {
-                                            ...user,
-                                            password: e.target.value
+                                        vCode: {
+                                            ...vCode,
+                                            code: e.target.value
                                         }
                                     })
-                                }}
-                            />
-                            }
-                            </div>
+                                }}/>
+                                <img style={{marginLeft: "12px", width: "30%", height: "33px"}} src={img_src}
+                                     onClick={this.genValCode}/>
+                            </Row>
+                        </div>
                     }
-                    <div>
-                        <span>没有账号<a onClick={() => {
-                            App.go('/userSignUp')
-                        }
-                        }>点击注册</a></span>
-                    </div>
+                    <Row>
+                        <Col span={20}>没有账号
+                            <a onClick={() => {
+                                App.go('/userSignUp')
+                            }}>点击注册</a>
+                        </Col>
+                        <Col span={4}>
+                            <a onClick={() => {
+                                App.go('/resetPassword')
+                            }}>忘记密码</a>
+                        </Col>
+                    </Row>
+
                     <div>
                         <Button className="bac-bottom" type="primary" htmlType="submit" onClick={() => {
                             this.handleSubmit()

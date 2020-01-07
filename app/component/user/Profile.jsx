@@ -2,7 +2,7 @@ import React from 'react';
 import UserProfile from "./UserProfile";
 import {App, U, CTYPE} from "../../common";
 import '../../assets/css/trainee/profile.scss'
-import {Modal, Icon, Form, Radio, Input, Select, Card, Button, message, Avatar} from "antd";
+import {Modal, Icon, Form, Input, Button, message, Avatar} from "antd";
 import KvStorage from "../../common/KvStorage";
 import {PosterEdit} from "../../common/update/CommonEdit";
 
@@ -28,16 +28,20 @@ export default class Profile extends React.Component {
 
     handleSubmit = () => {
         let {user} = this.state;
-        App.api('/usr/modify_profile', {
-            user: JSON.stringify(user),
-        }).then((result) => {
-            let {user = {}, userSession = {}} = result;
-            KvStorage.set('user-profile', JSON.stringify(user));
-            KvStorage.set('user-token', userSession.token);
-            message.success("修改成功");
-            this.showEdit();
-            this.showEdit1();
-        });
+        !U.str.isChinaMobile(user.mobile) ?
+            message.error("手机号码格式不正确") :
+            !U.str.isEmail(user.email) ?
+                message.error("邮箱格式不正确") :
+                App.api('/usr/modify_profile', {
+                    user: JSON.stringify(user),
+                }).then((result) => {
+                    let {user = {}, userSession = {}} = result;
+                    KvStorage.set('user-profile', JSON.stringify(user));
+                    KvStorage.set('user-token', userSession.token);
+                    message.success("修改成功");
+                    this.showEdit();
+                    this.showEdit1();
+                });
     };
 
     showEdit = (val) => {
@@ -82,12 +86,14 @@ export default class Profile extends React.Component {
                     <div className="side-right">
                         <div className="side-bac">
                             <div className="side-shadow">
-                                <Avatar size={64}
-                                        src={avatar}/>
+                                {avatar === undefined ?
+                                    <Avatar size={64} icon="user"/>
+                                    : <Avatar size={64} src={avatar}/>}
                             </div>
                         </div>
                         <div className="side-top">
-                            <a type='primary' onClick={() => this.edit()}>点击修改</a>
+                            {avatar === undefined ? <a type='primary' onClick={() => this.edit()}>立即设置</a> :
+                                <a type='primary' onClick={() => this.edit()}>点击修改</a>}
                         </div>
                     </div>
                     <ul className='info'>

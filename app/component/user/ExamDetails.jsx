@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {App, CTYPE, Utils, U} from "../../common";
 import {Checkbox, Col, Icon, Input, message, Tooltip, Rate, Row, Modal, Radio, Button} from "antd";
 import "../../assets/css/question/questionPractice.less"
+import Pagination from "antd/es/pagination";
 
 const HeartSvg = () => (
     <svg width="1em" height="1em" fill="currentColor" viewBox="0 0 1024 1024">
@@ -20,6 +21,11 @@ class ExamDetails extends Component {
             usrPaper: {},
             collercts: [],
             loading: false,
+            pagination: {
+                pageSize: CTYPE.paginations.pageSize,
+                current: 1,
+                total: 0,
+            },
         }
     }
 
@@ -77,8 +83,10 @@ class ExamDetails extends Component {
 
     render() {
 
-        let {usrPaper = {}} = this.state;
+        let {usrPaper = {},pagination} = this.state;
         let {questions = [], totalScore, paperName, totalTime, difficulty} = usrPaper;
+        let _questions = questions.slice((pagination.current - 1) * pagination.pageSize, (pagination.current - 1) * pagination.pageSize + pagination.pageSize);
+
         return <div>
             <div className="mockExam-card">
                 <div style={{textAlign: "center"}}>
@@ -99,7 +107,7 @@ class ExamDetails extends Component {
                             </Col>
                         </Row>}
                 </div>
-                {questions.map((question, index) => {
+                {_questions.map((question, index) => {
                     return <div>
                         <div>
                         </div>
@@ -109,7 +117,7 @@ class ExamDetails extends Component {
                             <HeartIcon onClick={() => {
                                 this.Submit(question.id, question.collected, index)
                             }} style={question.collected === 1 ?
-                                {color: 'red', margin: "0 10px"} : {color: '#f1f1f1', margin: "0 10px"}}/>
+                                {color: 'red', margin: "0 10px"} : {color: '#cbcbcb', margin: "0 10px"}}/>
                             {usrPaper.type === 3 ? null : (question.answer === question.userAnswer ?
                                 <Icon type="check" style={{color: "green", margin: "0 10px"}}/> :
                                 <span>
@@ -186,6 +194,16 @@ class ExamDetails extends Component {
                     </div>
                 })}
             </div>
+            <div className='clearfix-h20'/>
+            <Pagination
+                pageSize={pagination.pageSize}
+                total={questions.length}
+                current={pagination.current}
+                onChange={(page) => {
+                    this.onChange(page)
+                }}
+                showTotal={(total) => `总共 ${total} 条`}
+            />
         </div>
     }
 }

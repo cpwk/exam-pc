@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {App, CTYPE, U} from "../../common";
-import {Button, Card, Select, Modal, message, Icon, Tooltip} from "antd";
+import {Button, Card, Select, Modal, message, Icon, Tooltip, Empty} from "antd";
 import Pagination from "antd/es/pagination";
 
 const {Option} = Select;
@@ -81,53 +81,55 @@ class Mistakes extends Component {
                     </Select>
                 }
             >
-                {_mistakes.map((question, index) => {
-                    return <div>
-                        {index + 1 + (":") + "(" + CTYPE.displayType[`${question.type - 1}`] + ")"}
-                        {question.answer === question.userAnswer ?
-                            <Icon type="check" style={{color: "green"}}/> :
-                            <Tooltip
-                                title={`参考答案: ${question.answer}`}>
-                                <Icon type='question-circle' style={{color: "red", margin: "0 10px"}}/></Tooltip>}
-                        <li dangerouslySetInnerHTML={{__html: question.topic}}/>
-                        <ul>
-                            {question.type === 1 &&
-                            <li>
-                                {question.options.map((obj, i) => {
-                                    return <li>{CTYPE.ABC[i]}.{obj}</li>
-                                })}
-                            </li>}
-                            {question.type === 2 &&
-                            <li>
-                                {question.options.map((obj, i) => {
-                                    return <li>{CTYPE.ABC[i]}.{obj}</li>
-                                })}
-                            </li>}
-                            {question.type === 3 &&
-                            <li>
-                                {CTYPE.judge.map((j, index) => {
-                                    return <li>{index + 1}.{j.label}</li>
-                                })}
-                            </li>}
-                        </ul>
-                        <div style={{margin: "20px 0"}}>
-                            <Button type="primary" style={{height: "25px"}}
-                                    htmlType="submit" onClick={() => {
-                                this.status(questions.id)
-                            }}>移除</Button>
+                {_mistakes.length === 0 ? <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}/> :
+                    _mistakes.map((question, index) => {
+                        return <div>
+                            {index + 1 + (":") + "(" + CTYPE.displayType[`${question.type - 1}`] + ")"}
+                            {question.answer === question.userAnswer ?
+                                <Icon type="check" style={{color: "green"}}/> :
+                                <Tooltip
+                                    title={`参考答案: ${question.answer}`}>
+                                    <Icon type='question-circle' style={{color: "red", margin: "0 10px"}}/></Tooltip>}
+                            <li dangerouslySetInnerHTML={{__html: question.topic}}/>
+                            <ul>
+                                {question.type === 1 &&
+                                <li>
+                                    {question.options.map((obj, i) => {
+                                        return <li>{CTYPE.ABC[i]}.{obj}</li>
+                                    })}
+                                </li>}
+                                {question.type === 2 &&
+                                <li>
+                                    {question.options.map((obj, i) => {
+                                        return <li>{CTYPE.ABC[i]}.{obj}</li>
+                                    })}
+                                </li>}
+                                {question.type === 3 &&
+                                <li>
+                                    {CTYPE.judge.map((j, index) => {
+                                        return <li>{index + 1}.{j.label}</li>
+                                    })}
+                                </li>}
+                            </ul>
+                            <div style={{margin: "20px 0"}}>
+                                <Button type="primary" style={{height: "25px"}}
+                                        htmlType="submit" onClick={() => {
+                                    this.status(question.id)
+                                }}>移除</Button>
+                            </div>
                         </div>
-                    </div>
-                })}
-                <Pagination
-                    pageSize={pagination.pageSize}
-                    total={mistakes.length}
-                    current={pagination.current}
-                    onChange={(page) => {
-                        this.onChange(page)
-                    }}
-                    showTotal={(total) => `总共 ${total} 条`}
-                />
+                    })}
             </Card>
+            <Pagination
+                style={{float: 'right', marginTop: '10px'}}
+                pageSize={pagination.pageSize}
+                total={mistakes.length}
+                current={pagination.current}
+                onChange={(page) => {
+                    this.onChange(page)
+                }}
+                showTotal={(total) => `总共 ${total} 条`}
+            />
         </div>
     }
 }

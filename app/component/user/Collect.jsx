@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {App, CTYPE, U} from "../../common";
-import {Card, Select, message, Icon, Modal, Tooltip} from "antd";
+import {Card, Select, message, Icon, Modal, Tooltip,Empty} from "antd";
 import Pagination from "antd/es/pagination";
 
 const {Option} = Select;
@@ -83,7 +83,7 @@ class Collect extends Component {
     };
 
     render() {
-        let {collects = [], totalElements, pageNumber, pageSize} = this.state;
+        let {collects, totalElements, pageNumber, pageSize} = this.state;
         return <div>
             <Card
                 title={"我的收藏"}
@@ -102,59 +102,61 @@ class Collect extends Component {
                     </Select>
                 }
             >
-                {collects.map((collect, index) => {
-                    let {question = {}} = collect;
-                    return <div>
-                        <br/>
-                        {index + 1 + (":") + "(" + CTYPE.displayType[`${question.type - 1}`] + ")"}
-                        <HeartIcon onClick={() => {
-                            this.Submit(question.id)
-                        }} style={{color: 'red', marginLeft: "10px"}}/>
-                        <Tooltip title={`参考答案: ${question.answer}`}>
-                            <Icon type='question-circle' style={{margin: "0 10px"}}/></Tooltip>
-                        <li dangerouslySetInnerHTML={{__html: question.topic}}/>
-                        <ul>
-                            {question.type === 1 &&
-                            <li>
-                                {question.options.map((obj, i) => {
-                                    return <li>{CTYPE.ABC[i]}.{obj}</li>
-                                })}
-                            </li>}
-                            {question.type === 2 &&
-                            <li>
-                                {question.options.map((obj, i) => {
-                                    return <li>{CTYPE.ABC[i]}.{obj}</li>
-                                })}
-                            </li>}
-                            {question.type === 3 &&
-                            <li>
-                                {CTYPE.judge.map((j, index) => {
-                                    return <li>{index + 1}.{j.label}</li>
-                                })}
-                            </li>}
-                        </ul>
-                    </div>
-                })}
+                {collects.length===0 ? <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}/> :
+                    collects.map((collect, index) => {
+                        let {question = {}} = collect;
+                        return <div>
+                            <br/>
+                            {index + 1 + (":") + "(" + CTYPE.displayType[`${question.type - 1}`] + ")"}
+                            <HeartIcon onClick={() => {
+                                this.Submit(question.id)
+                            }} style={{color: 'red', marginLeft: "10px"}}/>
+                            <Tooltip title={`参考答案: ${question.answer}`}>
+                                <Icon type='question-circle' style={{margin: "0 10px"}}/></Tooltip>
+                            <li dangerouslySetInnerHTML={{__html: question.topic}}/>
+                            <ul>
+                                {question.type === 1 &&
+                                <li>
+                                    {question.options.map((obj, i) => {
+                                        return <li>{CTYPE.ABC[i]}.{obj}</li>
+                                    })}
+                                </li>}
+                                {question.type === 2 &&
+                                <li>
+                                    {question.options.map((obj, i) => {
+                                        return <li>{CTYPE.ABC[i]}.{obj}</li>
+                                    })}
+                                </li>}
+                                {question.type === 3 &&
+                                <li>
+                                    {CTYPE.judge.map((j, index) => {
+                                        return <li>{index + 1}.{j.label}</li>
+                                    })}
+                                </li>}
+                            </ul>
+                        </div>
+                    })
+                }
             </Card>
             <Pagination
-            style={{float: 'right', marginTop: '10px'}}
-            showSizeChanger
-            onChange={(page, pageSize) => {
-                this.setState({pageNumber: page, pageSize}, () => {
-                    this.loadData()
-                })
-            }}
-            onShowSizeChange={(current, size) => {
-                this.setState({
-                    pageNumber: current,
-                    pageSize: size
-                }, () => {
-                    this.loadData();
-                })
-            }}
-            defaultCurrent={pageNumber}
-            pageSize={pageSize}
-            total={totalElements}/>
+                style={{float: 'right', marginTop: '10px'}}
+                showSizeChanger
+                onChange={(page, pageSize) => {
+                    this.setState({pageNumber: page, pageSize}, () => {
+                        this.loadData()
+                    })
+                }}
+                onShowSizeChange={(current, size) => {
+                    this.setState({
+                        pageNumber: current,
+                        pageSize: size
+                    }, () => {
+                        this.loadData();
+                    })
+                }}
+                defaultCurrent={pageNumber}
+                pageSize={pageSize}
+                total={totalElements}/>
         </div>
     }
 }

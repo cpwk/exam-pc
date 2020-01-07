@@ -24,7 +24,7 @@ let CTYPE = (() => {
 
         commonPagination: {showQuickJumper: true, showSizeChanger: true, showTotal: total => `总共 ${total} 条`},
 
-        bannerTypes: {HOME: 1, JAVA_PRY: 3, JAVA_ADV: 5, SERVICE: 7, REACT_PC: 9, ABOUT_PC: 11},
+        bannerTypes: {HOME: 1, SIGNUP: 2, JAVA_ADV: 5, SERVICE: 7, REACT_PC: 9, ABOUT_PC: 11},
 
 
         //图片裁切工具比例
